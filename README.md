@@ -159,12 +159,11 @@ All data from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) -
 
 | Category | Managers |
 |----------|----------|
-| Most Watched | Michael Burry, Cathie Wood/ARK, Bill Ackman |
-| Value Legends | Warren Buffett, Seth Klarman, Mohnish Pabrai |
-| Macro | Stanley Druckenmiller, Ray Dalio, David Tepper |
-| Growth & Tech | Chase Coleman/Tiger Global, Philippe Laffont/Coatue |
-| Steady Compounders | Tom Gayner/Markel, Terry Smith/Fundsmith |
-| Activists | Bill Ackman, David Einhorn |
+| Trending | Michael Burry, Cathie Wood/ARK, Bill Ackman |
+| Deep Value | Warren Buffett, Seth Klarman, Mohnish Pabrai, David Einhorn |
+| Macro | Stanley Druckenmiller, David Tepper |
+| Growth | Chase Coleman/Tiger Global, Philippe Laffont/Coatue |
+| Compounders | Tom Gayner/Markel, Terry Smith/Fundsmith |
 
 Any 13F filer can be analyzed -- just provide the name or CIK number.
 

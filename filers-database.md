@@ -8,30 +8,34 @@ When the user's input is vague (just "13F", "holdings", etc.), show this menu. A
 
 13F Institutional Holdings Analysis -- Pick a fund manager:
 
-  Most Watched on the Internet
-    1. Michael Burry (Scion) -- The Big Short, every 13F goes viral
-    2. Cathie Wood (ARK Invest) -- Disruptive innovation, love her or hate her
-    3. Bill Ackman (Pershing Square) -- Activist bets, very active on X
-    4. Warren Buffett (Berkshire Hathaway) -- The Oracle of Omaha
+  Trending
+    1. Michael Burry (Scion) -- The Big Short contrarian
+    2. Cathie Wood (ARK Invest) -- Disruptive innovation
+    3. Bill Ackman (Pershing Square) -- Activist, active on X
+    4. Warren Buffett (Berkshire) -- The Oracle of Omaha
 
-  Value & Deep Value
-    5. Seth Klarman (Baupost) -- Deep value, ultra-private
+  Deep Value
+    5. Seth Klarman (Baupost) -- Ultra-private
     6. David Einhorn (Greenlight) -- Value + short-selling
-    7. Mohnish Pabrai -- Ultra-concentrated deep value
+    7. Mohnish Pabrai -- Ultra-concentrated
 
-  Macro & Swing
+  Macro
     8. Stanley Druckenmiller (Duquesne) -- Macro legend
-    9. David Tepper (Appaloosa) -- Event-driven, distressed
+    9. David Tepper (Appaloosa) -- Event-driven
 
-  Growth & Tech
+  Growth
     10. Chase Coleman (Tiger Global) -- Tech growth
     11. Philippe Laffont (Coatue) -- Tech hedge
 
-  Steady Compounders
-    12. Tom Gayner (Markel) -- Insurance float, mini-Berkshire
-    13. Terry Smith (Fundsmith) -- Quality growth, low turnover
+  Compounders
+    12. Tom Gayner (Markel) -- Mini-Berkshire
+    13. Terry Smith (Fundsmith) -- Quality growth
 
-  You can also: say any name or CIK | "Compare Buffett and Ackman" | "Who owns TSLA" | "My watchlist" | "Find concentrated value investors"
+Or try:
+  > Compare Buffett and Ackman
+  > Who owns TSLA
+  > Find me concentrated value investors
+  > My watchlist
 
 **Chinese version (when user writes in Chinese):**
 
