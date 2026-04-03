@@ -194,6 +194,18 @@ Validates: EDGAR API fetch, XML parse, value scale detection, quarter diff logic
     test_pipeline.py       # End-to-end test suite
 ```
 
+## Disclaimer / 免责声明
+
+**This tool is for informational and educational purposes only. It is NOT investment advice.**
+
+- 13F data is backward-looking (45-day lag) and may not reflect current positions
+- Past holdings do not predict future performance
+- The authors are not licensed financial advisors
+- Always do your own research before making investment decisions
+- Use at your own risk — see MIT License "AS IS" clause
+
+**本工具仅供信息参考和学习用途，不构成任何投资建议。** 13F 数据有滞后性，不代表基金经理当前持仓。投资有风险，决策需谨慎。
+
 ## Limitations
 
 1. **45-day lag** — 13F reflects quarter-end, filed ~45 days later

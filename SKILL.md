@@ -525,6 +525,15 @@ When generating HTML reports with inline JS:
 5. **Timeline sparklines** — for core holdings showing share count over quarters (SVG)
 6. **Comparison matrix** — for cross-fund mode, heat-map style grid
 
+### Report Footer Disclaimer
+Every generated HTML report MUST include this disclaimer in the footer:
+```
+Data source: SEC EDGAR 13F-HR filings · Values as of {REPORT_DATE}
+13F data has 45-day lag. Long positions only. No shorts, options, or derivatives.
+本报告仅供信息参考，不构成投资建议。投资有风险，决策需谨慎。
+For informational purposes only. Not investment advice.
+```
+
 ### Formatting Rules
 - $ values: `$1,234,567,890` with commas
 - Percentages: 1 decimal place with +/- prefix for changes
