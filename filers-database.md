@@ -6,8 +6,23 @@ When the user's input is vague (just "13F", "holdings", etc.), show this menu. A
 
 **English version (default):**
 
-13F Institutional Holdings Analysis -- Pick a fund manager:
+```
+13F Institutional Holdings Analysis
 
+  What would you like to do?
+
+  A) Browse recommended fund managers
+  B) Compare two or more managers
+  C) Look up a stock (e.g. "Who owns TSLA")
+  D) Search by style (e.g. "concentrated value investors")
+  E) View my watchlist
+
+  Or just type a fund manager name to get started.
+```
+
+When user picks A, expand the recommended list:
+
+```
   Trending
     1. Michael Burry (Scion) -- The Big Short contrarian
     2. Cathie Wood (ARK Invest) -- Disruptive innovation
@@ -31,39 +46,53 @@ When the user's input is vague (just "13F", "holdings", etc.), show this menu. A
     12. Tom Gayner (Markel) -- Mini-Berkshire
     13. Terry Smith (Fundsmith) -- Quality growth
 
-Or try:
-  > Compare Buffett and Ackman
-  > Who owns TSLA
-  > Find me concentrated value investors
-  > My watchlist
+  Pick a number, or type any name.
+```
 
 **Chinese version (when user writes in Chinese):**
 
-  13F 机构持仓分析 -- 你想看谁的？
+```
+13F 机构持仓分析
 
-  价值投资大佬
-    1. 巴菲特 (Berkshire Hathaway) -- 股神
-    2. 段永平 (Himalaya Capital) -- 极致集中价值
-    3. Bill Ackman (Pershing Square) -- 激进集中
-    4. Seth Klarman (Baupost) -- 深度价值
+  你想做什么？
 
-  宏观 & 事件驱动
-    5. Stanley Druckenmiller (Duquesne) -- 宏观之王
-    6. 桥水/Ray Dalio (Bridgewater) -- 全天候策略
-    7. David Tepper (Appaloosa) -- 事件驱动
+  A) 看推荐的基金经理
+  B) 对比多个基金经理
+  C) 查一只股票 (比如 "谁持有 TSLA")
+  D) 按风格找 (比如 "集中持仓的价值投资人")
+  E) 我的关注列表
 
-  成长 & 创新
-    8. 木头姐/Cathie Wood (ARK) -- 颠覆式创新
-    9. Tiger Global/Chase Coleman -- 科技成长
+  或者直接输入基金经理名字。
+```
+
+When user picks A, expand:
+
+```
+  热门
+    1. 大空头 Michael Burry (Scion) -- 每次13F都刷屏
+    2. 木头姐 Cathie Wood (ARK) -- 颠覆式创新
+    3. Bill Ackman (Pershing Square) -- 激进派
+    4. 巴菲特 (Berkshire Hathaway) -- 股神
+
+  价值
+    5. 段永平 (Himalaya Capital) -- 极致集中
+    6. Seth Klarman (Baupost) -- 深度价值
+    7. 李录 (Himalaya Capital Partners) -- 芒格弟子
+
+  宏观
+    8. Stanley Druckenmiller (Duquesne) -- 宏观之王
+    9. David Tepper (Appaloosa) -- 事件驱动
+
+  成长
     10. 高瓴/Hillhouse (HHLR) -- 中国最大PE
+    11. Tiger Global/Chase Coleman -- 科技成长
 
-  稳健复利
-    11. Tom Gayner (Markel) -- 保险浮存金投资
-    12. 大空头/Michael Burry (Scion) -- 逆势操作
-    13. 李录 (Himalaya Capital Partners) -- 芒格弟子
-    14. Mohnish Pabrai -- 极致集中深度价值
+  复利
+    12. Tom Gayner (Markel) -- 迷你版伯克希尔
+    13. Mohnish Pabrai -- 极致集中深度价值
 
-  也可以: 说名字或编号 | "对比巴菲特和Ackman" | "谁持有TSLA" | "我的关注列表"
+  输入编号或名字。
+```
 
 ## Pre-mapped Filers
 
