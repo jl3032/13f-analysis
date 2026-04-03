@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -208,10 +208,10 @@ a[href*="finance.yahoo.com"]:hover { text-decoration: underline; text-decoration
     <button class="tab active" data-tab="changes">Quarterly Changes</button>
     <button class="tab" data-tab="holdings">All Holdings</button>
     <button class="tab" data-tab="sectors">Sector Analysis</button>
-    <button class="tab" data-tab="core">Transaction History / 持仓生命周期</button>
-    <button class="tab" data-tab="evolution">Portfolio Evolution / 组合演变</button>
-    <button class="tab" data-tab="style">Style Analysis / 风格分析</button>
-    <button class="tab" data-tab="history">Quarter Browser / 季度浏览</button>
+    <button class="tab" data-tab="core">Transaction History</button>
+    <button class="tab" data-tab="evolution">Portfolio Evolution</button>
+    <button class="tab" data-tab="style">Style Analysis</button>
+    <button class="tab" data-tab="history">Quarter Browser</button>
     <button class="tab" data-tab="profile">Manager Profile</button>
   </div>
 
@@ -364,7 +364,7 @@ a[href*="finance.yahoo.com"]:hover { text-decoration: underline; text-decoration
 
   <!-- ===== TAB: CORE POSITIONS ===== -->
   <div id="tab-core" class="tab-content">
-    <h2 class="section-header">Transaction History / 交易历史</h2>
+    <h2 class="section-header">Transaction History</h2>
     <p class="section-desc">Each position's buy/add/trim timeline with price range at time of purchase. Click stock name to view on Yahoo Finance.</p>
     <!-- {{CORE_HOLDINGS_CONTENT}} -->
     <!-- Each core holding gets an expandable with sparkline and quarter-by-quarter table -->
@@ -410,28 +410,28 @@ a[href*="finance.yahoo.com"]:hover { text-decoration: underline; text-decoration
 
   <!-- ===== TAB: PORTFOLIO EVOLUTION ===== -->
   <div id="tab-evolution" class="tab-content">
-    <h2 class="section-header">Portfolio Evolution / 组合演变</h2>
+    <h2 class="section-header">Portfolio Evolution</h2>
     <p class="section-desc">Historical view across all quarters of 13F filings.</p>
     <!-- {{EVOLUTION_SUMMARY_CARDS}} -->
-    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Total AUM Over Time / 管理规模趋势</h3><div id="chart-aum" class="svg-chart"></div></div>
-    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Portfolio Concentration / 集中度趋势</h3><div id="chart-concentration" class="svg-chart"></div></div>
-    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Holdings Composition / 持仓构成变化</h3><div id="chart-stacked" class="svg-chart"></div></div>
+    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Total AUM Over Time</h3><div id="chart-aum" class="svg-chart"></div></div>
+    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Portfolio Concentration</h3><div id="chart-concentration" class="svg-chart"></div></div>
+    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Holdings Composition</h3><div id="chart-stacked" class="svg-chart"></div></div>
   </div>
 
   <!-- ===== TAB: STYLE ANALYSIS ===== -->
   <div id="tab-style" class="tab-content">
-    <h2 class="section-header">Investment Style Analysis / 投资风格分析</h2>
+    <h2 class="section-header">Investment Style Analysis</h2>
     <p class="section-desc">Quantitative style profile derived from historical 13F data.</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
-      <div><h3 style="margin-bottom:16px">Style Radar / 风格雷达</h3><div id="chart-radar" class="svg-chart" style="text-align:center"></div></div>
-      <div><h3 style="margin-bottom:16px">Key Metrics / 关键指标</h3><!-- {{STYLE_METRICS_TABLE}} --></div>
+      <div><h3 style="margin-bottom:16px">Style Radar</h3><div id="chart-radar" class="svg-chart" style="text-align:center"></div></div>
+      <div><h3 style="margin-bottom:16px">Key Metrics</h3><!-- {{STYLE_METRICS_TABLE}} --></div>
     </div>
     <!-- {{STYLE_SUMMARY_INSIGHT}} -->
   </div>
 
   <!-- ===== TAB: QUARTER BROWSER ===== -->
   <div id="tab-history" class="tab-content">
-    <h2 class="section-header">Historical Quarter Browser / 历史季度浏览</h2>
+    <h2 class="section-header">Historical Quarter Browser</h2>
     <div class="quarter-timeline" id="quarter-timeline"><!-- JS renders buttons --></div>
     <div id="quarter-snapshot"><!-- JS renders content --></div>
   </div>
@@ -446,7 +446,7 @@ a[href*="finance.yahoo.com"]:hover { text-decoration: underline; text-decoration
   <div class="footer">
     Data source: SEC EDGAR 13F-HR filings &middot; Generated {{GENERATED_DATE}} &middot; Values as of {{REPORT_DATE}}<br>
     <span style="color:var(--text-dim);">13F data has 45-day lag. Long positions only. No shorts, options, or derivatives. Subject to confidential treatment requests.</span><br>
-    <span style="color:var(--text-dim);">本报告仅供信息参考，不构成投资建议。投资有风险，决策需谨慎。 For informational purposes only. Not investment advice.</span>
+    <span style="color:var(--text-dim);">For informational purposes only. Not investment advice.</span>
   </div>
 
 </div>

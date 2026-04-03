@@ -1,13 +1,13 @@
 ---
 name: 13f-analysis
-description: Use when user asks to analyze institutional 13F holdings, compare fund manager positions, track quarterly portfolio changes, identify long-term core holdings, or research what major investors are buying/selling. Triggers on "13F", "持仓", "holdings", fund manager names, or institutional investment analysis requests.
+description: Use when user asks to analyze institutional 13F holdings, compare fund manager positions, track quarterly portfolio changes, identify long-term core holdings, or research what major investors are buying/selling. Best suited for retail investors and independent researchers who want readable analysis rather than raw filing data. Triggers on "13F", "holdings", fund manager names, or institutional investment analysis requests.
 ---
 
 # 13F Institutional Holdings Analysis
 
 ## Overview
 
-Analyze SEC 13F filings to track what major institutional investors are buying, selling, and holding. Core capability: fetch raw data from SEC EDGAR, parse holdings, compare across quarters, and produce actionable reports for fund managers.
+Analyze SEC 13F filings to track what major institutional investors are buying, selling, and holding. Core capability: fetch raw data from SEC EDGAR, parse holdings, compare across quarters, and produce readable reports for retail investors and independent researchers.
 
 **13F = quarterly snapshot of long positions for US institutions managing >$100M. Filed within 45 days of quarter-end.**
 
@@ -29,7 +29,7 @@ Analyze SEC 13F filings to track what major institutional investors are buying, 
 
 ## Language Detection
 
-Detect the user's language from their input. The ENTIRE report adapts to match:
+Detect the user's language from their input. The report should adapt to match:
 
 **English user (default):**
 - All UI: tab labels, section headers, badges, insight text — English only
@@ -39,9 +39,11 @@ Detect the user's language from their input. The ENTIRE report adapts to match:
 
 **Chinese user:**
 - All UI: tab labels, section headers, badges, insight text — Chinese (with English subtitle where helpful)
-- Stock names: Chinese + English (e.g., "谷歌 ALPHABET INC", "美国银行 BANK OF AMERICA")
+- Stock names: localized names plus English ticker/company name where helpful
 - Footer disclaimer: bilingual
 - Manager profile section: Chinese
+
+Use bilingual or localized labels only when they clearly improve usability for that user.
 
 ## Onboarding
 
@@ -52,45 +54,45 @@ If user has a watchlist file (`13f_watchlist.md` in the working directory), ment
 ## Input Recognition
 
 User may provide:
-- Fund manager name (e.g., "巴菲特", "Buffett", "Druckenmiller")
+- Fund manager name (e.g., "Buffett", "Druckenmiller")
 - Fund/entity name (e.g., "Berkshire Hathaway", "Bridgewater")
 - CIK number directly
-- A stock ticker for reverse lookup (Mode 3: "谁持有TSLA")
-- A number from the Quick Menu (e.g., "1" = 段永平)
-- "我的关注列表" / "my watchlist" — load from watchlist file
-- "对比 X 和 Y" / "compare X and Y" — Mode 2
+- A stock ticker for reverse lookup (Mode 3: "Who owns TSLA")
+- A number from the Quick Menu
+- "my watchlist" — load from watchlist file
+- "compare X and Y" — Mode 2
 - **A description/requirement** — see Discovery Mode below
 
 **First step:** Map input to CIK number. Check filers-database.md for known filers. If not found, try Discovery Mode or search SEC EDGAR.
 
-## Discovery Mode / 帮我找基金经理
+## Discovery Mode
 
 When the user doesn't know a specific name but describes what they want, enter Discovery Mode:
 
 **Trigger phrases:**
-- "帮我推荐几个值得关注的基金经理"
-- "有没有重仓科技股的大佬"
-- "谁的风格跟巴菲特像"
-- "哪些基金经理最近在买中概股"
-- "我想找集中持仓、长期持有的价值投资人"
-- "有没有管理规模小但业绩好的"
+- "Recommend some managers to follow"
+- "Who runs a tech-heavy portfolio"
+- "Who invests like Buffett"
+- "Which managers are buying China-related stocks"
+- "I want concentrated, long-term value investors"
+- "Show me smaller managers with strong conviction"
 - Any vague description of a style, sector, or preference
 
 **Flow:**
 
-1. **Parse the requirement** — extract keywords: style (集中/分散, 价值/成长), sector preference (科技/金融/消费), scale (大型/小型), geography (中概/美股), etc.
+1. **Parse the requirement** — extract keywords: style (concentrated/diversified, value/growth), sector preference (technology/financials/consumer), scale (large/small), geography (China-related/US), etc.
 
 2. **Search in filers-database.md first** — filter the 20 pre-mapped managers by matching criteria. Present as options:
 
-```
-🔍 根据你的要求"集中持仓的价值投资人"，推荐：
+```text
+Based on your request for "concentrated value investors", here are strong fits:
 
-  A. 段永平 (Himalaya) — 9 只股票，43.9% 重仓谷歌，极致集中
-  B. Bill Ackman (Pershing) — 11 只股票，激进价值+activist
-  C. Seth Klarman (Baupost) — 22 只股票，深度价值，低调神秘
-  D. Mohnish Pabrai — 3-5 只股票，巴菲特信徒，最极致的集中
+  A. Duan Yongping (Himalaya) -- ultra-concentrated, very low turnover
+  B. Bill Ackman (Pershing) -- concentrated activist value
+  C. Seth Klarman (Baupost) -- selective deep value, highly private
+  D. Mohnish Pabrai -- extremely concentrated Buffett-style investor
 
-想看谁的？可以选多个（比如 "A 和 D"），也可以说 "都加到关注列表"
+Which one would you like to see? You can pick multiple (for example "A and D"), or say "add them all to my watchlist".
 ```
 
 3. **If no match in database** — search SEC EDGAR using EFTS full-text search:
@@ -104,10 +106,10 @@ Present discovered filers as options with basic info (entity name, CIK, recent f
 **Key principles:**
 - Always give **numbered/lettered options**, don't just dump a list
 - Include a one-line hook for each option explaining WHY it matches the user's requirement
-- Offer to "都加到关注列表" as a quick action
-- If user's requirement is about a specific stock ("谁在买 NVDA"), redirect to Mode 3 instead
+- Offer to "add them all to my watchlist" as a quick action
+- If the user's requirement is about a specific stock ("who is buying NVDA"), redirect to Mode 3 instead
 
-## Watchlist / 关注列表
+## Watchlist
 
 Users can maintain a personal watchlist at `13f_watchlist.md` in their working directory.
 
@@ -115,27 +117,27 @@ Users can maintain a personal watchlist at `13f_watchlist.md` in their working d
 ```markdown
 # My 13F Watchlist
 
-- 段永平 / Himalaya Capital (CIK 0001709323)
-- 巴菲特 / Berkshire Hathaway (CIK 0001067983)
+- Duan Yongping / Himalaya Capital (CIK 0001709323)
+- Warren Buffett / Berkshire Hathaway (CIK 0001067983)
 - Bill Ackman / Pershing Square (CIK 0001336528)
 ```
 
 **Operations:**
-- "加 Druckenmiller 到关注列表" → append to file, confirm
-- "从关注列表删除 ARK" → remove from file, confirm
-- "我的关注列表" / "看看我关注的基金" → read file, list all
+- "add Druckenmiller to my watchlist" → append to file, confirm
+- "remove ARK from my watchlist" → remove from file, confirm
+- "my watchlist" → read file, list all
 - "关注列表最新动态" / "watchlist update" → for each manager, fetch latest quarter, generate a one-line summary of changes. Output as a summary table:
 
-```
-📊 关注列表最新动态 (Q4 2025)
+```text
+Watchlist Updates (Q4 2025)
 
-| 基金经理 | 最新操作 | 组合规模 |
-|----------|---------|---------|
-| 段永平 | 新买 CROCS，清仓 SABLE，其余不动 | $35.7亿 |
-| 巴菲特 | 减仓 AAPL，加仓 OXY | $2,664亿 |
-| Ackman | 新买 META，清仓 CMG | $155亿 |
+| Manager | Latest action | Portfolio size |
+|---------|---------------|----------------|
+| Duan Yongping | Bought CROCS, exited SABLE, otherwise unchanged | $3.57B |
+| Warren Buffett | Trimmed AAPL, added OXY | $266.4B |
+| Ackman | Added META, exited CMG | $15.5B |
 
-想看哪个的详细报告？
+Which one would you like to open in detail?
 ```
 
 **Empty watchlist onboarding:** If the watchlist file does not exist or is empty when the user picks E, guide them:
@@ -152,7 +154,7 @@ What would you like to do?
 
 After they add managers, confirm and offer: "Want to see their latest updates now?"
 
-- **"共识分析" / "consensus" / "大佬都在买什么"** → Mode 4: Watchlist Consensus Analysis (see below)
+- **"consensus" / "what do they all own"** → Mode 4: Watchlist Consensus Analysis (see below)
 
 ## Analysis Modes
 
@@ -168,7 +170,7 @@ digraph modes {
   "Stock Ownership Timeline" [shape=box];
   "Watchlist Consensus" [shape=box];
 
-  "User Input" -> "Has Watchlist?" [label="consensus/共识/大佬都在买什么"];
+  "User Input" -> "Has Watchlist?" [label="consensus / what do they all own"];
   "Has Watchlist?" -> "Watchlist Consensus" [label="yes"];
   "Has Watchlist?" -> "Cross-Fund Compare" [label="no, prompt to create"];
   "User Input" -> "Single Fund?" [label="specific name"];
@@ -193,7 +195,7 @@ digraph modes {
 
 #### 2. Current Portfolio Snapshot
 - Top 20 holdings by value (name, shares, value, % of portfolio)
-- **Stock name language:** Follow the Language Detection rule above. English user → English only. Chinese user → Chinese + English (e.g., "华美银行 EAST WEST BANCORP", "谷歌 ALPHABET", "拼多多 PDD HOLDINGS").
+- **Stock name language:** Follow the Language Detection rule above. English user → English only. Chinese user → localized names plus English when helpful.
 - **Concentration metric:** top 10 holdings as % of total portfolio
 - Sector/industry breakdown
 
@@ -228,7 +230,7 @@ Compare latest quarter vs previous quarter:
 
 ### Mode 2: Cross-Fund Comparison
 
-**Input:** Multiple fund names/managers (e.g., "对比段永平和巴菲特", "Compare Ackman, Einhorn and Klarman")
+**Input:** Multiple fund names/managers (e.g., "Compare Duan Yongping and Buffett", "Compare Ackman, Einhorn and Klarman")
 **Data needed:** Same quarter(s) for all funds
 
 **Output structure:**
@@ -236,16 +238,16 @@ Compare latest quarter vs previous quarter:
 #### 1. Side-by-side Changes
 For each fund: new positions, eliminated, major increases/decreases
 
-#### 2. Consensus Holdings / 共识持仓 (HIGHLIGHT THIS)
-Stocks held by 2+ of the selected managers — **this is what retail investors care about most**
+#### 2. Consensus Holdings (HIGHLIGHT THIS)
+Stocks held by 2+ of the selected managers — **this is one of the most useful signals for retail users**
 - Show as a matrix table: rows = stocks, columns = managers, cells = % of portfolio (or "—" if not held)
 - Sort by number of managers holding the stock (descending)
 - Color-code: green if recently added by multiple managers, red if recently reduced
-- Add Chinese stock names
+- Add localized stock names only when useful for the user's language/context
 
-#### 3. Consensus Moves / 共识动作
+#### 3. Consensus Moves
 Stocks that multiple managers bought or sold in the same quarter — **strongest signal**
-- "巴菲特和段永平同时加仓 BAC" is a powerful insight for retail investors
+- "Buffett and Duan Yongping both added BAC" is a powerful insight for retail investors
 
 #### 4. Sector Comparison
 Each manager's sector allocation side by side
@@ -253,9 +255,9 @@ Each manager's sector allocation side by side
 #### 5. Style Comparison
 Radar charts overlaid or side-by-side showing how managers differ in concentration, turnover, etc.
 
-### Mode 3: Stock Ownership Timeline (个股反查)
+### Mode 3: Stock Ownership Timeline
 
-**Input:** Stock ticker/name (e.g., "哪些大佬持有TSLA？", "Who owns Apple?")
+**Input:** Stock ticker/name (e.g., "Who owns TSLA?", "Who owns Apple?")
 **Data needed:** Multiple quarters of 13F data for ALL known filers, filtered for target stock (by CUSIP)
 
 This mode answers: **"我看中了这只股票，哪些大佬也在买？"** — a core use case for retail investors.

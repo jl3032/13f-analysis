@@ -1,17 +1,17 @@
 # 13F Institutional Holdings Analysis
 
-[中文文档 / Chinese Documentation](README_CN.md)
+[Chinese Documentation](README-zh.md)
 
-AI-powered analysis of SEC 13F filings -- track what Burry, Cathie Wood, Ackman, Buffett and other top investors are buying and selling. Generates interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
+AI-powered SEC 13F analysis for retail investors and independent researchers. Track what Buffett, Ackman, Cathie Wood, Burry and other major investors are buying and selling, then turn raw filings into interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
 
 **Works with any AI coding tool:** Claude Code, Cursor, Windsurf, GitHub Copilot, Gemini CLI, Aider, and more.
 
 ## What It Does
 
-Ask your AI about a fund manager, and it generates a comprehensive single-file HTML report:
+Ask your AI about a fund manager, and it generates a comprehensive single-file HTML report designed for fast understanding, not just raw data lookup:
 
 - **Quarterly Changes** -- New positions, eliminations, share count changes
-- **All Holdings** -- Sortable table with Yahoo Finance links
+- **All Holdings** -- Sortable table with quote links
 - **Sector Analysis** -- Donut chart + sector rotation trends
 - **Stock Lifecycle** -- Every stock ever held, with lifecycle bars and classification
 - **Portfolio Evolution** -- SVG charts: AUM over time, concentration, composition
@@ -20,6 +20,13 @@ Ask your AI about a fund manager, and it generates a comprehensive single-file H
 - **Manager Profile** -- Background, investment style, famous trades
 
 Single self-contained HTML file. No dependencies. Dark/light theme toggle. Works offline.
+
+## Who It's For
+
+- **Retail investors** who want readable 13F summaries instead of filing documents
+- **Independent researchers** who track manager behavior across quarters
+- **Content creators / newsletter writers** who need a fast way to turn filings into narratives
+- **Bilingual users** who want English-first analysis with optional localized explanations
 
 ## Quick Start
 
@@ -46,6 +53,7 @@ Just ask in natural language:
 "Analyze Buffett's 13F holdings"
 "What is Ackman buying this quarter?"
 "Compare Buffett and Klarman holdings"
+"Compare Buffett, Ackman, and Klarman"
 "Who owns TSLA?" (reverse stock lookup)
 "Find me concentrated value investors" (discovery mode)
 ```
@@ -69,7 +77,7 @@ git clone https://github.com/jl3032/13f-analysis.git ~/.claude/skills/13f-analys
 cd ~/.claude/skills/13f-analysis && ./setup
 ```
 
-The skill auto-triggers on keywords: `13F`, `holdings`, fund manager names.
+The skill auto-triggers on keywords such as `13F`, `holdings`, or fund manager names.
 
 ### Cursor
 
@@ -147,8 +155,8 @@ Copy the contents of `SKILL.md` into your AI tool's system prompt or custom inst
 - **Single-file HTML** -- all CSS/JS inline, zero external dependencies
 - **Dark/light theme** -- toggle button, preference saved via localStorage
 - **Pure SVG charts** -- no Chart.js or D3 needed
-- **Yahoo Finance links** -- every stock links to its quote page
-- **Bilingual** -- English + Chinese labels throughout
+- **Quote links** -- every stock can link to a quote page for quick reference
+- **Language-adaptive** -- follow the user's language, with localized labels when helpful
 - **Responsive** -- works on desktop and mobile
 
 ## Data Source
@@ -159,10 +167,10 @@ All data from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) -
 
 | Category | Managers |
 |----------|----------|
-| Trending | Michael Burry, Cathie Wood/ARK, Bill Ackman |
-| Deep Value | Warren Buffett, Seth Klarman, Mohnish Pabrai, David Einhorn |
-| Macro | Stanley Druckenmiller, David Tepper |
-| Growth | Chase Coleman/Tiger Global, Philippe Laffont/Coatue |
+| Most Watched | Warren Buffett, Michael Burry, Cathie Wood/ARK, Bill Ackman |
+| Value & Deep Value | Seth Klarman, Mohnish Pabrai, David Einhorn, Li Lu |
+| Macro | Stanley Druckenmiller, Ray Dalio, David Tepper |
+| Growth & Tech | Chase Coleman/Tiger Global, Philippe Laffont/Coatue, Hillhouse |
 | Compounders | Tom Gayner/Markel, Terry Smith/Fundsmith |
 
 Any 13F filer can be analyzed -- just provide the name or CIK number.
@@ -189,6 +197,17 @@ python3 tests/test_pipeline.py
 
 Validates: EDGAR API fetch, XML parse, value scale detection, quarter diff logic, SEC cover page cross-reference. Tested against 7 fund managers.
 
+## Positioning
+
+This project is not trying to be a full 13F database terminal like WhaleWisdom or a professional institutional data platform.
+
+Its focus is different:
+
+- make SEC 13F filings readable for ordinary investors
+- help AI assistants explain quarterly changes clearly
+- generate portable, single-file research reports
+- support English-first and bilingual workflows
+
 ## File Structure
 
 ```
@@ -200,7 +219,7 @@ Validates: EDGAR API fetch, XML parse, value scale detection, quarter diff logic
   setup                    # Installation script
   LICENSE                  # MIT
   README.md                # English documentation
-  README_CN.md             # Chinese documentation
+  README-zh.md             # Chinese documentation
   tests/
     test_pipeline.py       # End-to-end test suite
 ```

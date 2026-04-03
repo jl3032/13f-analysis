@@ -76,6 +76,6 @@ echo ""
 echo "Usage: In Claude Code, ask about any fund manager's 13F holdings."
 echo 'Before making SEC requests, set: export SEC_USER_AGENT_EMAIL="your-real-email@example.com"'
 echo "Examples:"
-echo '  "分析段永平的13F持仓"'
+echo '  "Analyze Duan Yongping'\''s 13F holdings"'
 echo '  "What is Buffett buying?"'
 echo '  "Compare Ackman and Einhorn holdings"'
