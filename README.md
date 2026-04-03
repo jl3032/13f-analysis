@@ -2,7 +2,7 @@
 
 [中文文档 / Chinese Documentation](README_CN.md)
 
-AI-powered analysis of SEC 13F filings -- track what Buffett, Duan Yongping, Ackman and other top investors are buying and selling. Generates interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
+AI-powered analysis of SEC 13F filings -- track what Burry, Cathie Wood, Ackman, Buffett and other top investors are buying and selling. Generates interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
 
 **Works with any AI coding tool:** Claude Code, Cursor, Windsurf, GitHub Copilot, Gemini CLI, Aider, and more.
 
@@ -148,13 +148,12 @@ All data from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) -
 
 | Category | Managers |
 |----------|----------|
-| Value Legends | Warren Buffett, Duan Yongping, Li Lu, Seth Klarman |
-| Activists | Bill Ackman, David Einhorn |
-| Macro | Stanley Druckenmiller, Ray Dalio |
-| Growth | Cathie Wood/ARK, Chase Coleman/Tiger Global, Coatue |
+| Most Watched | Michael Burry, Cathie Wood/ARK, Bill Ackman |
+| Value Legends | Warren Buffett, Seth Klarman, Mohnish Pabrai |
+| Macro | Stanley Druckenmiller, Ray Dalio, David Tepper |
+| Growth & Tech | Chase Coleman/Tiger Global, Philippe Laffont/Coatue |
 | Steady Compounders | Tom Gayner/Markel, Terry Smith/Fundsmith |
-| Contrarians | Michael Burry, Mohnish Pabrai |
-| China-focused | Hillhouse/HHLR (Zhang Lei) |
+| Activists | Bill Ackman, David Einhorn |
 
 Any 13F filer can be analyzed -- just provide the name or CIK number.
 

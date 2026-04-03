@@ -133,10 +133,11 @@ For 13F analysis tasks, read and follow 13f-analysis/SKILL.md.
 
 | 分类 | 基金经理 |
 |------|----------|
-| 🔥 中文投资圈关注 | 段永平、巴菲特、李录、高瓴/张磊 |
-| 💰 华尔街传奇 | Ackman、Druckenmiller、Klarman、Einhorn |
-| 🚀 成长派 | 木头姐/ARK、Tiger Global、Coatue |
-| 🏛️ 稳健价值 | Gayner/Markel、Terry Smith、大空头 Burry、Pabrai |
+| 🔥 全网最火 | 大空头 Burry、木头姐 ARK、Ackman |
+| 💰 中文投资圈 | 段永平、巴菲特、李录、高瓴/张磊 |
+| 🏛️ 价值传奇 | Klarman、Pabrai、Einhorn |
+| 📈 宏观 & 成长 | Druckenmiller、Tiger Global、Coatue |
+| 🔄 稳健复利 | Gayner/Markel、Terry Smith |
 
 支持分析任何 13F 申报机构——提供名字或 CIK 号码即可。
 

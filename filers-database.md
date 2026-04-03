@@ -8,27 +8,28 @@ When the user's input is vague (just "13F", "holdings", etc.), show this menu. A
 
 13F Institutional Holdings Analysis -- Pick a fund manager:
 
-  Top Value Investors
-    1. Warren Buffett (Berkshire Hathaway) -- The Oracle of Omaha
-    2. Bill Ackman (Pershing Square) -- Activist, concentrated bets
-    3. Seth Klarman (Baupost) -- Deep value, ultra-private
-    4. David Einhorn (Greenlight) -- Value + short-selling
+  Most Watched on the Internet
+    1. Michael Burry (Scion) -- The Big Short, every 13F goes viral
+    2. Cathie Wood (ARK Invest) -- Disruptive innovation, love her or hate her
+    3. Bill Ackman (Pershing Square) -- Activist bets, very active on X
+    4. Warren Buffett (Berkshire Hathaway) -- The Oracle of Omaha
+
+  Value & Deep Value
+    5. Seth Klarman (Baupost) -- Deep value, ultra-private
+    6. David Einhorn (Greenlight) -- Value + short-selling
+    7. Mohnish Pabrai -- Ultra-concentrated deep value
 
   Macro & Swing
-    5. Stanley Druckenmiller (Duquesne) -- Macro legend
-    6. Ray Dalio (Bridgewater) -- All Weather, risk parity
-    7. David Tepper (Appaloosa) -- Event-driven, distressed
+    8. Stanley Druckenmiller (Duquesne) -- Macro legend
+    9. David Tepper (Appaloosa) -- Event-driven, distressed
 
-  Growth & Innovation
-    8. Cathie Wood (ARK Invest) -- Disruptive innovation
-    9. Chase Coleman (Tiger Global) -- Tech growth
-    10. Philippe Laffont (Coatue) -- Tech hedge
+  Growth & Tech
+    10. Chase Coleman (Tiger Global) -- Tech growth
+    11. Philippe Laffont (Coatue) -- Tech hedge
 
   Steady Compounders
-    11. Tom Gayner (Markel) -- Insurance float, mini-Berkshire
-    12. Michael Burry (Scion) -- The Big Short contrarian
+    12. Tom Gayner (Markel) -- Insurance float, mini-Berkshire
     13. Terry Smith (Fundsmith) -- Quality growth, low turnover
-    14. Mohnish Pabrai -- Ultra-concentrated deep value
 
   You can also: say any name or CIK | "Compare Buffett and Ackman" | "Who owns TSLA" | "My watchlist" | "Find concentrated value investors"
 
