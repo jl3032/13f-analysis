@@ -1,0 +1,24 @@
+# Generated reports (local only, not part of the skill)
+13f_*.html
+
+# Local config
+.claude/
+settings.local.json
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Temp files
+*.tmp
+*.bak
+/tmp/
+
+# Watchlist (personal, not shared)
+13f_watchlist.md

@@ -373,7 +373,7 @@ To get historical stock prices for the quarter range, use WebFetch with Yahoo Fi
 ## Stock Links
 
 **Every stock name in the report must link to Yahoo Finance** (`https://finance.yahoo.com/quote/{TICKER}`):
-- Use `target="_blank"` to open in new tab
+- Use `target="_blank" rel="noopener noreferrer"` to open in new tab (rel required for security)
 - Style: inherit text color, no underline by default, blue underline on hover
 - Apply to: All Holdings table, Quarterly Changes table, Transaction Timeline headers
 - For Berkshire Hathaway CL B, use `BRK-B` (Yahoo format, not `BRK.B`)
