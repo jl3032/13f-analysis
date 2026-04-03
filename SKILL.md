@@ -126,7 +126,7 @@ Users can maintain a personal watchlist at `13f_watchlist.md` in their working d
 - "add Druckenmiller to my watchlist" → append to file, confirm
 - "remove ARK from my watchlist" → remove from file, confirm
 - "my watchlist" → read file, list all
-- "关注列表最新动态" / "watchlist update" → for each manager, fetch latest quarter, generate a one-line summary of changes. Output as a summary table:
+- "watchlist update" → for each manager, fetch latest quarter, generate a one-line summary of changes. Output as a summary table:
 
 ```text
 Watchlist Updates (Q4 2025)
@@ -215,9 +215,9 @@ Compare latest quarter vs previous quarter:
 - Entry timeline (first appeared, share count progression)
 - **Buy price range:** for each buy/add quarter, show that quarter's stock price low ~ high as reference
 - **Current price position:** For each stock, show where the current price sits relative to the buy quarter's price range. Use a simple indicator:
-  - "在买入区间内" / "Within buy range" — current price is between quarter low and high
-  - "高于买入区间 +X%" / "Above buy range +X%" — current price above the high
-  - "低于买入区间 -X%" / "Below buy range -X%" — current price below the low (potential opportunity)
+  - "Within buy range" — current price is between quarter low and high
+  - "Above buy range +X%" — current price above the high
+  - "Below buy range -X%" — current price below the low (potential opportunity)
 - Do NOT estimate cost basis or P&L — just show the price range and current relative position
 
 #### 5. Sector Allocation Trend
@@ -260,11 +260,11 @@ Radar charts overlaid or side-by-side showing how managers differ in concentrati
 **Input:** Stock ticker/name (e.g., "Who owns TSLA?", "Who owns Apple?")
 **Data needed:** Multiple quarters of 13F data for ALL known filers, filtered for target stock (by CUSIP)
 
-This mode answers: **"我看中了这只股票，哪些大佬也在买？"** — a core use case for retail investors.
+This mode answers: **"I am interested in this stock. Which respected investors also own it?"** This is a core use case for retail investors.
 
 **Output structure:**
 
-#### 1. Ownership Matrix / 持仓矩阵
+#### 1. Ownership Matrix
 Table: rows = managers (from filers-database.md), columns = recent quarters, cells = shares held or "—"
 - Highlight: green if recently added, red if recently reduced, bold if top-10 holding for that manager
 - Sort by current position size descending
@@ -278,9 +278,9 @@ For each holder, show what % of their portfolio this stock represents — higher
 #### 4. Who Sold Too Early
 Institutions that exited before significant price appreciation
 
-### Mode 4: Watchlist Consensus Analysis (大佬共识)
+### Mode 4: Watchlist Consensus Analysis
 
-**Input:** "共识分析", "大佬都在买什么", "consensus", "我关注的大佬有什么共同持仓"
+**Input:** "consensus", "what do they all own", "what does my watchlist have in common"
 **Data needed:** Latest 2 quarters for ALL managers in the user's watchlist
 **Prerequisite:** Watchlist file must exist. If not, prompt user to create one first.
 
@@ -294,39 +294,39 @@ This is the **killer feature for retail investors** — "I don't know who to loo
 
 **Output structure:**
 
-#### 1. Consensus Holdings / 共识持仓
+#### 1. Consensus Holdings
 Stocks held by 2+ watchlist managers, sorted by holder count descending:
 ```
-共识持仓 — 被 2 个以上大佬同时持有:
+Consensus holdings owned by 2 or more watchlist managers:
 
-| 股票 (中文名)           | 几人持有 | 谁在持有 (占比)                           |
+| Stock                  | Holders | Who owns it (% of portfolio)             |
 |------------------------|---------|------------------------------------------|
-| ALPHABET (谷歌)         | 4       | 段永平 22%, Ackman 12.5%, Gayner 6.9%... |
-| AMAZON (亚马逊)         | 4       | Ackman 14.3%, Klarman 9.3%...            |
-| APPLE (苹果)            | 3       | 巴菲特 22.6%, Gayner 2.7%...             |
+| Alphabet               | 4       | Duan 22%, Ackman 12.5%, Gayner 6.9%...   |
+| Amazon                 | 4       | Ackman 14.3%, Klarman 9.3%...            |
+| Apple                  | 3       | Buffett 22.6%, Gayner 2.7%...            |
 ```
 
-#### 2. Consensus Moves / 本季度共识动作
+#### 2. Consensus Moves
 Stocks where 2+ managers made the same directional move this quarter:
-- "Ackman 和 Gayner 同时加仓 Brookfield" → strong buy signal
-- "Klarman 和 Burry 同时新建仓 Molina Healthcare" → new idea convergence
-If no consensus moves: "本季度各买各的，没有共识方向操作"
+- "Ackman and Gayner both added Brookfield" → strong buy signal
+- "Klarman and Burry both opened Molina Healthcare" → new idea convergence
+If no consensus moves: "No clear same-direction consensus move this quarter."
 
-#### 3. Sector Consensus / 板块共识
+#### 3. Sector Consensus
 Table showing each manager's sector allocation, with an average column:
 ```
-| 板块       | 段永平 | 巴菲特 | Ackman | ... | 平均  |
+| Sector    | Duan   | Buffett| Ackman | ... | Avg   |
 |-----------|--------|--------|--------|-----|-------|
 | Tech      | 44.7%  | 24.8%  | 39.5%  |     | 27.8% |
 | Financials| 37.5%  | 0.0%   | 18.1%  |     | 9.7%  |
 ```
 
 #### 4. Action Prompt
-End with: "想看某个共识股票的详细反查？还是看某个大佬的完整报告？"
+End with: "Want a detailed ownership timeline for one of these consensus names, or a full report on one manager?"
 
 **Key principles:**
 - This mode outputs TEXT, not HTML — it is a quick scan, not a deep dive
-- Always include Chinese stock names
+- Use the user's language preference consistently
 - Sort by "signal strength" (more holders = stronger signal)
 - The consensus moves section is the most actionable — highlight it
 - If watchlist has < 3 managers, suggest adding more for better consensus signal
@@ -427,7 +427,7 @@ Top-level keys:
 
 - **Portfolio Evolution (Module A)**: SVG time series charts — AUM, concentration, stacked composition. Lazy rendering.
 - **Stock Lifecycle (Module B)**: Enhanced transaction history with lifecycle bars, classification badges, filter buttons. All stocks ever held including exited.
-- **Style Analysis (Module C)**: Radar chart + metrics table + auto-generated bilingual style summary + **historical win rate** (新建仓后持有 4 季度的胜率，即 4 季度后该股票仍在组合中且市值上涨的比例).
+- **Style Analysis (Module C)**: Radar chart + metrics table + auto-generated style summary + **historical win rate** (share of newly opened positions that were still held and higher in value four quarters later).
 - **Quarter Browser (Module D)**: Interactive quarter selector, dynamic holdings table + diff rendering.
 
 ## SVG Chart Guidelines
@@ -515,7 +515,7 @@ When generating HTML reports with inline JS:
 
 ```html
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -547,7 +547,7 @@ When generating HTML reports with inline JS:
 
 ### Visual Components to Include
 
-1. **One-line summary / 一句话摘要** — At the very top of the report (in the insight box before tabs), write a 2-3 sentence Chinese summary of the key takeaway. Example: "段永平Q4 2025对所有持仓零交易。唯一操作是新建仓CROCS（试探性仓位）和清仓SABLE OFFSHORE。" This helps casual users get the gist without reading the full report.
+1. **One-line summary** — At the very top of the report (in the insight box before tabs), write a 2-3 sentence summary of the key takeaway in the user's language. Example: "Duan Yongping made almost no portfolio changes in Q4 2025. The only notable actions were opening a small CROCS position and exiting Sable Offshore." This helps casual users get the gist without reading the full report.
 2. **Summary cards** at top — AUM, # positions, top holding, concentration %, quarter
 2. **Holdings table** — sortable by name/value/shares/change%, with inline bar for portfolio weight
 3. **Changes table** — new/eliminated/increased/decreased with color-coded badges
@@ -560,7 +560,6 @@ Every generated HTML report MUST include this disclaimer in the footer:
 ```
 Data source: SEC EDGAR 13F-HR filings · Values as of {REPORT_DATE}
 13F data has 45-day lag. Long positions only. No shorts, options, or derivatives.
-本报告仅供信息参考，不构成投资建议。投资有风险，决策需谨慎。
 For informational purposes only. Not investment advice.
 ```
 
@@ -572,22 +571,22 @@ Never leave example.com placeholders in actual requests or generated code.
 - Percentages: 1 decimal place with +/- prefix for changes
 - Large numbers: abbreviate in cards (e.g., $266.4B) but full in tables
 - Sort by value descending by default
-- Chinese + English bilingual labels where appropriate
+- Use one language consistently unless the user explicitly asks for bilingual output
 
 ## Playbook: Full Institutional Report
 
 When user requests a comprehensive report, follow this sequence:
 
-1. **机构画像** — Manager profile, historical returns, famous trades, AUM, style
-2. **投资风格分析** — Known quotes, philosophy, concentration vs diversification
-3. **核心底仓** — Stock lifecycle with classification, lifecycle bars, and transaction timeline (Module B)
-4. **近期新建仓** — New positions in past 2-4 quarters with context (company events, price range, PE, earnings)
-5. **近期清仓** — Eliminated positions with retrospective analysis
-6. **大幅加减仓** — Significant changes with conviction analysis
-7. **板块配置变化** — Sector rotation trends, cross-manager comparison
-8. **热门股票追踪** — Single-stock institutional ownership timeline (optional)
-9. **组合演变** — Portfolio evolution charts: AUM, concentration, composition (Module A)
-10. **风格量化** — Style analysis: radar chart, metrics, bilingual summary (Module C)
+1. **Manager Profile** — Manager profile, historical returns, famous trades, AUM, style
+2. **Investment Style Analysis** — Known quotes, philosophy, concentration vs diversification
+3. **Core Holdings** — Stock lifecycle with classification, lifecycle bars, and transaction timeline (Module B)
+4. **Recent New Positions** — New positions in past 2-4 quarters with context (company events, price range, PE, earnings)
+5. **Recent Exits** — Eliminated positions with retrospective analysis
+6. **Major Adds and Trims** — Significant changes with conviction analysis
+7. **Sector Allocation Changes** — Sector rotation trends, cross-manager comparison
+8. **Single-Stock Ownership Timeline** — Institutional ownership timeline for one stock (optional)
+9. **Portfolio Evolution** — Portfolio evolution charts: AUM, concentration, composition (Module A)
+10. **Style Metrics** — Style analysis: radar chart, metrics, summary (Module C)
 
 ## Edge Cases & Known Issues
 
