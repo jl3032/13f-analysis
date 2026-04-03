@@ -15,7 +15,7 @@ When the user's input is vague (just "13F", "holdings", etc.), show this menu. A
   B) Compare two or more managers
   C) Look up a stock (e.g. "Who owns TSLA")
   D) Search by style (e.g. "concentrated value investors")
-  E) View my watchlist
+  E) View or edit my watchlist
 
   Or just type a fund manager name to get started.
 ```
@@ -60,7 +60,7 @@ When user picks A, expand the recommended list:
   B) 对比多个基金经理
   C) 查一只股票 (比如 "谁持有 TSLA")
   D) 按风格找 (比如 "集中持仓的价值投资人")
-  E) 我的关注列表
+  E) 查看/编辑我的关注列表
 
   或者直接输入基金经理名字。
 ```

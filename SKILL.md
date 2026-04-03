@@ -138,7 +138,19 @@ Users can maintain a personal watchlist at `13f_watchlist.md` in their working d
 想看哪个的详细报告？
 ```
 
-If the watchlist file doesn't exist and user asks about it, create it with a default template.
+**Empty watchlist onboarding:** If the watchlist file does not exist or is empty when the user picks E, guide them:
+
+```
+Your watchlist is empty. Let me help you set it up:
+
+  1) Add from our recommended list (pick from Burry, Wood, Ackman, Buffett...)
+  2) Tell me what style you like and I will suggest managers
+  3) Type a specific name to add
+
+What would you like to do?
+```
+
+After they add managers, confirm and offer: "Want to see their latest updates now?"
 
 - **"共识分析" / "consensus" / "大佬都在买什么"** → Mode 4: Watchlist Consensus Analysis (see below)
 
