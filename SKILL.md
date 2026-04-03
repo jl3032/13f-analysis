@@ -27,11 +27,19 @@ Analyze SEC 13F filings to track what major institutional investors are buying, 
 3. **Confidential treatment** — active positions may be hidden temporarily
 4. **Snapshot only** — high-frequency/quant funds may have turned over positions within the quarter
 
-## Onboarding / 新用户引导
+## Language Detection
 
-When the user's input is vague (e.g., just "13F", "看持仓", "有什么好看的基金"), **show the Quick Menu from filers-database.md** — a categorized list of popular managers with numbered options. This helps users who don't know a specific name get started immediately.
+Detect the user's language from their input and respond accordingly:
+- If user writes in Chinese → respond in Chinese, show Chinese labels in reports
+- If user writes in English → respond in English, show English labels in reports
+- Default: English
+- Reports are always bilingual (English + Chinese labels) regardless of input language
 
-If user has a watchlist file (`13f_watchlist.md` in the working directory), mention it: "你有 X 个关注的基金经理，要看最新动态吗？"
+## Onboarding
+
+When the user's input is vague (e.g., just "13F", "holdings", "show me some funds"), **show the Quick Menu from filers-database.md** — a categorized list of popular managers with numbered options.
+
+If user has a watchlist file (`13f_watchlist.md` in the working directory), mention it: "You have X managers in your watchlist. Want to see the latest updates?"
 
 ## Input Recognition
 

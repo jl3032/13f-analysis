@@ -1,39 +1,64 @@
 # Known 13F Filers Database
 
-## Quick Menu / 快速菜单
+## Quick Menu
 
-When the user says "13F", "看持仓", or doesn't specify a fund manager, show this menu:
+When the user's input is vague (just "13F", "holdings", etc.), show this menu. Adapt language to the user's input.
 
-```
-📊 13F 大佬持仓分析 — 你想看谁的？
+**English version (default):**
 
-🔥 中文投资圈最关注
-  1. 段永平 (Himalaya Capital) — 极致集中，巴菲特门徒
-  2. 巴菲特 (Berkshire Hathaway) — 股神，不用介绍
-  3. 李录 (Himalaya Capital Partners) — 芒格中国弟子
-  4. 高瓴 (Hillhouse Capital) — 张磊，中国最大PE
+13F Institutional Holdings Analysis -- Pick a fund manager:
 
-💰 华尔街传奇
-  5. Bill Ackman (Pershing Square) — 激进派，集中持仓
-  6. Stanley Druckenmiller (Duquesne) — 宏观之王
-  7. Seth Klarman (Baupost) — 深度价值，极度低调
-  8. David Einhorn (Greenlight) — 价值+做空
+  Top Value Investors
+    1. Warren Buffett (Berkshire Hathaway) -- The Oracle of Omaha
+    2. Bill Ackman (Pershing Square) -- Activist, concentrated bets
+    3. Seth Klarman (Baupost) -- Deep value, ultra-private
+    4. David Einhorn (Greenlight) -- Value + short-selling
 
-🚀 成长派
-  9. Cathie Wood / 木头姐 (ARK) — 颠覆式创新
-  10. Chase Coleman (Tiger Global) — 科技成长
-  11. Philippe Laffont (Coatue) — 科技对冲
+  Macro & Swing
+    5. Stanley Druckenmiller (Duquesne) -- Macro legend
+    6. Ray Dalio (Bridgewater) -- All Weather, risk parity
+    7. David Tepper (Appaloosa) -- Event-driven, distressed
 
-🏛️ 稳健价值
-  12. Tom Gayner (Markel) — 保险浮存金投资
-  13. Terry Smith (Fundsmith) — 英国巴菲特
-  14. Joel Greenblatt (Gotham) — 魔法公式
+  Growth & Innovation
+    8. Cathie Wood (ARK Invest) -- Disruptive innovation
+    9. Chase Coleman (Tiger Global) -- Tech growth
+    10. Philippe Laffont (Coatue) -- Tech hedge
 
-💡 也可以直接说任何基金经理名字或 CIK 号码
-💡 说 "我的关注列表" 查看你的 watchlist
-💡 说 "对比段永平和巴菲特" 做交叉分析
-💡 说 "谁持有 TSLA" 做个股反查
-```
+  Steady Compounders
+    11. Tom Gayner (Markel) -- Insurance float, mini-Berkshire
+    12. Michael Burry (Scion) -- The Big Short contrarian
+    13. Terry Smith (Fundsmith) -- Quality growth, low turnover
+    14. Mohnish Pabrai -- Ultra-concentrated deep value
+
+  You can also: say any name or CIK | "Compare Buffett and Ackman" | "Who owns TSLA" | "My watchlist" | "Find concentrated value investors"
+
+**Chinese version (when user writes in Chinese):**
+
+  13F 机构持仓分析 -- 你想看谁的？
+
+  价值投资大佬
+    1. 巴菲特 (Berkshire Hathaway) -- 股神
+    2. 段永平 (Himalaya Capital) -- 极致集中价值
+    3. Bill Ackman (Pershing Square) -- 激进集中
+    4. Seth Klarman (Baupost) -- 深度价值
+
+  宏观 & 事件驱动
+    5. Stanley Druckenmiller (Duquesne) -- 宏观之王
+    6. 桥水/Ray Dalio (Bridgewater) -- 全天候策略
+    7. David Tepper (Appaloosa) -- 事件驱动
+
+  成长 & 创新
+    8. 木头姐/Cathie Wood (ARK) -- 颠覆式创新
+    9. Tiger Global/Chase Coleman -- 科技成长
+    10. 高瓴/Hillhouse (HHLR) -- 中国最大PE
+
+  稳健复利
+    11. Tom Gayner (Markel) -- 保险浮存金投资
+    12. 大空头/Michael Burry (Scion) -- 逆势操作
+    13. 李录 (Himalaya Capital Partners) -- 芒格弟子
+    14. Mohnish Pabrai -- 极致集中深度价值
+
+  也可以: 说名字或编号 | "对比巴菲特和Ackman" | "谁持有TSLA" | "我的关注列表"
 
 ## Pre-mapped Filers
 

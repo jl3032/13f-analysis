@@ -1,6 +1,8 @@
 # 13F Institutional Holdings Analysis
 
-AI-powered analysis of SEC 13F filings — track what Buffett, 段永平, Ackman and other top investors are buying and selling. Generates interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
+[中文文档 / Chinese Documentation](README_CN.md)
+
+AI-powered analysis of SEC 13F filings -- track what Buffett, Duan Yongping, Ackman and other top investors are buying and selling. Generates interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
 
 **Works with any AI coding tool:** Claude Code, Cursor, Windsurf, GitHub Copilot, Gemini CLI, Aider, and more.
 
@@ -8,14 +10,14 @@ AI-powered analysis of SEC 13F filings — track what Buffett, 段永平, Ackman
 
 Ask your AI about a fund manager, and it generates a comprehensive single-file HTML report:
 
-- **Quarterly Changes** — New positions, eliminations, share count changes
-- **All Holdings** — Sortable table with Yahoo Finance links, Chinese stock names
-- **Sector Analysis** — Donut chart + sector rotation trends
-- **Stock Lifecycle** — Every stock ever held, with lifecycle bars and classification
-- **Portfolio Evolution** — SVG charts: AUM over time, concentration, composition
-- **Style Analysis** — Radar chart + quantitative metrics
-- **Quarter Browser** — Browse any historical quarter interactively
-- **Manager Profile** — Background, investment style, famous trades
+- **Quarterly Changes** -- New positions, eliminations, share count changes
+- **All Holdings** -- Sortable table with Yahoo Finance links
+- **Sector Analysis** -- Donut chart + sector rotation trends
+- **Stock Lifecycle** -- Every stock ever held, with lifecycle bars and classification
+- **Portfolio Evolution** -- SVG charts: AUM over time, concentration, composition
+- **Style Analysis** -- Radar chart + quantitative metrics
+- **Quarter Browser** -- Browse any historical quarter interactively
+- **Manager Profile** -- Background, investment style, famous trades
 
 Single self-contained HTML file. No dependencies. Dark/light theme toggle. Works offline.
 
@@ -40,12 +42,11 @@ cd 13f-analysis && ./setup
 Just ask in natural language:
 
 ```
-"分析段永平的13F持仓"
-"What is Buffett buying this quarter?"
-"Compare Ackman and Einhorn holdings"
-"大佬都在买什么" (consensus analysis)
-"谁持有 TSLA" (reverse stock lookup)
-"帮我找集中持仓的价值投资人" (discovery mode)
+"Analyze Buffett's 13F holdings"
+"What is Ackman buying this quarter?"
+"Compare Buffett and Klarman holdings"
+"Who owns TSLA?" (reverse stock lookup)
+"Find me concentrated value investors" (discovery mode)
 ```
 
 ## Platform Setup
@@ -53,12 +54,11 @@ Just ask in natural language:
 ### Claude Code
 
 ```bash
-# Clone into skills directory
 git clone https://github.com/jl3032/13f-analysis.git ~/.claude/skills/13f-analysis
 cd ~/.claude/skills/13f-analysis && ./setup
 ```
 
-The skill auto-triggers on keywords: `13F`, `持仓`, `holdings`, fund manager names.
+The skill auto-triggers on keywords: `13F`, `holdings`, fund manager names.
 
 ### Cursor
 
@@ -68,8 +68,6 @@ Add to your `.cursor/rules` or project rules:
 Read the file 13f-analysis/SKILL.md and follow its instructions for analyzing SEC 13F institutional holdings.
 Reference files: 13f-analysis/edgar-api-reference.md, 13f-analysis/filers-database.md
 ```
-
-Or copy `SKILL.md` content into Cursor's custom instructions.
 
 ### Windsurf (Codeium)
 
@@ -110,7 +108,7 @@ Read 13f-analysis/SKILL.md for complete instructions on how to analyze SEC 13F f
 
 ### Generic (Any AI)
 
-The core of this tool is `SKILL.md` — a detailed instruction document that tells any AI how to:
+The core of this tool is `SKILL.md` -- a detailed instruction document that tells any AI how to:
 1. Fetch 13F data from SEC EDGAR (free public API)
 2. Parse holdings XML
 3. Compare across quarters
@@ -124,7 +122,7 @@ Copy the contents of `SKILL.md` into your AI tool's system prompt or custom inst
 
 | Tab | Description |
 |-----|-------------|
-| Quarterly Changes | Q-o-Q diff: new, eliminated, changed positions |
+| Quarterly Changes | Quarter-over-quarter diff: new, eliminated, changed positions |
 | All Holdings | Sortable table with weight bars, search/filter |
 | Sector View | CSS donut chart + sector rotation table |
 | Transaction History | Full lifecycle of every stock ever held |
@@ -135,37 +133,40 @@ Copy the contents of `SKILL.md` into your AI tool's system prompt or custom inst
 
 ### Key Features
 
-- **Single-file HTML** — all CSS/JS inline, zero external dependencies
-- **Dark/light theme** — toggle button, preference saved
-- **Pure SVG charts** — no Chart.js or D3 needed
-- **Yahoo Finance links** — every stock links to its quote page
-- **Chinese + English** — bilingual labels throughout
-- **Responsive** — works on desktop and mobile
+- **Single-file HTML** -- all CSS/JS inline, zero external dependencies
+- **Dark/light theme** -- toggle button, preference saved via localStorage
+- **Pure SVG charts** -- no Chart.js or D3 needed
+- **Yahoo Finance links** -- every stock links to its quote page
+- **Bilingual** -- English + Chinese labels throughout
+- **Responsive** -- works on desktop and mobile
 
 ## Data Source
 
-All data from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) — the official, free, public source for 13F filings. **No API key needed.** No third-party data providers.
+All data from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) -- the official, free, public source for 13F filings. **No API key needed.** No third-party data providers.
 
 ## Pre-configured Fund Managers (20)
 
 | Category | Managers |
 |----------|----------|
-| 🔥 Chinese investor favorites | 段永平, 巴菲特, 李录, 高瓴/张磊 |
-| 💰 Wall Street legends | Ackman, Druckenmiller, Klarman, Einhorn |
-| 🚀 Growth | Cathie Wood/ARK, Tiger Global, Coatue |
-| 🏛️ Steady value | Gayner/Markel, Terry Smith, Burry, Pabrai |
+| Value Legends | Warren Buffett, Duan Yongping, Li Lu, Seth Klarman |
+| Activists | Bill Ackman, David Einhorn |
+| Macro | Stanley Druckenmiller, Ray Dalio |
+| Growth | Cathie Wood/ARK, Chase Coleman/Tiger Global, Coatue |
+| Steady Compounders | Tom Gayner/Markel, Terry Smith/Fundsmith |
+| Contrarians | Michael Burry, Mohnish Pabrai |
+| China-focused | Hillhouse/HHLR (Zhang Lei) |
 
-Any 13F filer can be analyzed — just provide the name or CIK number.
+Any 13F filer can be analyzed -- just provide the name or CIK number.
 
 ## Analysis Modes
 
 | Mode | Trigger | Output |
 |------|---------|--------|
-| **Fund Deep Dive** | "分析段永平" | Full 8-tab HTML report |
-| **Cross-Fund Compare** | "对比段永平和巴菲特" | Consensus holdings matrix |
-| **Stock Reverse Lookup** | "谁持有 TSLA" | Which managers hold a stock |
-| **Watchlist Consensus** | "大佬都在买什么" | Top picks across your watchlist |
-| **Discovery** | "帮我找重仓科技股的大佬" | AI recommends managers by criteria |
+| **Fund Deep Dive** | "Analyze Buffett" | Full 8-tab HTML report |
+| **Cross-Fund Compare** | "Compare Buffett and Ackman" | Consensus holdings matrix |
+| **Stock Reverse Lookup** | "Who owns TSLA" | Which managers hold a stock |
+| **Watchlist Consensus** | "What are the top picks" | Consensus across your watchlist |
+| **Discovery** | "Find tech-heavy managers" | AI recommends managers by criteria |
 
 ## Testing
 
@@ -189,12 +190,13 @@ Validates: EDGAR API fetch, XML parse, value scale detection, quarter diff logic
   report-template.html     # HTML report template
   setup                    # Installation script
   LICENSE                  # MIT
-  README.md                # This file
+  README.md                # English documentation
+  README_CN.md             # Chinese documentation
   tests/
     test_pipeline.py       # End-to-end test suite
 ```
 
-## Disclaimer / 免责声明
+## Disclaimer
 
 **This tool is for informational and educational purposes only. It is NOT investment advice.**
 
@@ -202,17 +204,15 @@ Validates: EDGAR API fetch, XML parse, value scale detection, quarter diff logic
 - Past holdings do not predict future performance
 - The authors are not licensed financial advisors
 - Always do your own research before making investment decisions
-- Use at your own risk — see MIT License "AS IS" clause
-
-**本工具仅供信息参考和学习用途，不构成任何投资建议。** 13F 数据有滞后性，不代表基金经理当前持仓。投资有风险，决策需谨慎。
+- Use at your own risk -- see MIT License "AS IS" clause
 
 ## Limitations
 
-1. **45-day lag** — 13F reflects quarter-end, filed ~45 days later
-2. **Long positions only** — no shorts, options, futures, derivatives
-3. **Confidential treatment** — some positions may be temporarily hidden
-4. **Snapshot only** — high-turnover funds may change within the quarter
-5. **US equities focus** — foreign-only positions may not appear
+1. **45-day lag** -- 13F reflects quarter-end, filed ~45 days later
+2. **Long positions only** -- no shorts, options, futures, derivatives
+3. **Confidential treatment** -- some positions may be temporarily hidden
+4. **Snapshot only** -- high-turnover funds may change within the quarter
+5. **US equities focus** -- foreign-only positions may not appear
 
 ## License
 
