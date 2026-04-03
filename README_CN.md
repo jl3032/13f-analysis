@@ -36,6 +36,7 @@ cd 13f-analysis && ./setup
 - Python 3.6+
 - curl
 - 网络连接（SEC EDGAR API，免费，无需 API key）
+- 一个真实可用的联系邮箱，用于 SEC `User-Agent` 请求头（`SEC_USER_AGENT_EMAIL`）
 
 ### 使用方式
 
@@ -49,6 +50,16 @@ cd 13f-analysis && ./setup
 "谁持有 TSLA"（个股反查）
 "帮我找集中持仓的价值投资人"（发现模式）
 ```
+
+### SEC User-Agent 设置
+
+访问 SEC EDGAR 时，`User-Agent` 里应包含你自己可联系的真实邮箱。
+
+```bash
+export SEC_USER_AGENT_EMAIL="your-real-email@example.com"
+```
+
+不要在真实请求里继续使用 `example.com` 这类占位邮箱。
 
 ## 平台配置
 

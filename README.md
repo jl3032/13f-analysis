@@ -36,6 +36,7 @@ cd 13f-analysis && ./setup
 - Python 3.6+
 - curl
 - Internet access (SEC EDGAR API, free, no API key needed)
+- A real contact email for SEC `User-Agent` headers (`SEC_USER_AGENT_EMAIL`)
 
 ### Usage
 
@@ -48,6 +49,16 @@ Just ask in natural language:
 "Who owns TSLA?" (reverse stock lookup)
 "Find me concentrated value investors" (discovery mode)
 ```
+
+### SEC User-Agent Setup
+
+SEC EDGAR requests should include a descriptive `User-Agent` with a real contact email you control.
+
+```bash
+export SEC_USER_AGENT_EMAIL="your-real-email@example.com"
+```
+
+Do not leave placeholder addresses such as `example.com` in real requests.
 
 ## Platform Setup
 

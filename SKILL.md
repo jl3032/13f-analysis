@@ -325,7 +325,7 @@ End with: "想看某个共识股票的详细反查？还是看某个大佬的完
 
 ```
 1. GET https://data.sec.gov/submissions/CIK{padded_cik}.json
-   Headers: User-Agent: 13F-Analysis research@example.com
+   Headers: User-Agent: 13F-Analysis your-real-email@example.com
    → Extract filings.recent, filter form=="13F-HR", match reportDate for target quarter
    → Get accessionNumber
 
@@ -549,6 +549,9 @@ Data source: SEC EDGAR 13F-HR filings · Values as of {REPORT_DATE}
 本报告仅供信息参考，不构成投资建议。投资有风险，决策需谨慎。
 For informational purposes only. Not investment advice.
 ```
+
+When making SEC requests, always use a User-Agent with a real contact email you control.
+Never leave example.com placeholders in actual requests or generated code.
 
 ### Formatting Rules
 - $ values: `$1,234,567,890` with commas

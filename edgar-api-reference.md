@@ -3,7 +3,8 @@
 ## Authentication
 
 - **No API key required** — all endpoints are public
-- **User-Agent header MANDATORY**: `User-Agent: 13F-Analysis research@example.com`
+- **User-Agent header MANDATORY**: `User-Agent: 13F-Analysis your-real-email@example.com`
+- Use a real contact email you control. Do not ship or copy placeholder addresses into production requests.
 - **Rate limit**: 10 requests/second per IP. Missing User-Agent → 403.
 
 ## Core Endpoints

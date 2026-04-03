@@ -32,7 +32,8 @@ from collections import defaultdict
 SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
 SEC_ARCHIVES_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/"
 SEC_INDEX_JSON_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/index.json"
-USER_AGENT = "13F-PipelineTest research-test@example.com"
+USER_AGENT_EMAIL = os.environ.get("SEC_USER_AGENT_EMAIL", "replace-with-your-real-email@example.com")
+USER_AGENT = f"13F-PipelineTest {USER_AGENT_EMAIL}"
 RATE_LIMIT_DELAY = 0.22  # seconds between requests
 
 NS = {"ns": "http://www.sec.gov/edgar/document/thirteenf/informationtable"}
