@@ -1,50 +1,122 @@
 # 13F Institutional Holdings Analysis
 
-A Claude Code skill that analyzes SEC 13F filings to track what major institutional investors are buying, selling, and holding. Fetches raw data from SEC EDGAR, parses holdings across all historical quarters, and produces interactive HTML reports with deep analysis.
+AI-powered analysis of SEC 13F filings — track what Buffett, 段永平, Ackman and other top investors are buying and selling. Generates interactive HTML reports with portfolio evolution charts, style analysis, and cross-fund consensus.
+
+**Works with any AI coding tool:** Claude Code, Cursor, Windsurf, GitHub Copilot, Gemini CLI, Aider, and more.
 
 ## What It Does
 
-Tell Claude Code about a fund manager, and it generates a comprehensive single-file HTML report:
+Ask your AI about a fund manager, and it generates a comprehensive single-file HTML report:
 
 - **Quarterly Changes** — New positions, eliminations, share count changes
-- **All Holdings** — Sortable table with Yahoo Finance links
+- **All Holdings** — Sortable table with Yahoo Finance links, Chinese stock names
 - **Sector Analysis** — Donut chart + sector rotation trends
-- **Stock Lifecycle** — Every stock ever held, with lifecycle bars, classification (Core/Medium/Short-lived), and transaction timeline
-- **Portfolio Evolution** — SVG charts: AUM over time, concentration trends, stacked composition
-- **Style Analysis** — Radar chart + quantitative metrics (turnover, holding period, conviction)
-- **Quarter Browser** — Browse any historical quarter with diff vs previous
+- **Stock Lifecycle** — Every stock ever held, with lifecycle bars and classification
+- **Portfolio Evolution** — SVG charts: AUM over time, concentration, composition
+- **Style Analysis** — Radar chart + quantitative metrics
+- **Quarter Browser** — Browse any historical quarter interactively
 - **Manager Profile** — Background, investment style, famous trades
 
-All in a single self-contained HTML file. No dependencies. Dark theme. Works offline.
+Single self-contained HTML file. No dependencies. Dark/light theme toggle. Works offline.
 
 ## Quick Start
 
 ### Install
 
 ```bash
-git clone https://github.com/jl3032/13f-analysis.git ~/.claude/skills/13f-analysis
-cd ~/.claude/skills/13f-analysis && ./setup
+git clone https://github.com/jl3032/13f-analysis.git
+cd 13f-analysis && ./setup
 ```
 
 ### Requirements
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+- Any AI coding assistant (see Platform Setup below)
 - Python 3.6+
 - curl
-- Internet access (SEC EDGAR API)
+- Internet access (SEC EDGAR API, free, no API key needed)
 
 ### Usage
 
-In Claude Code, just ask:
+Just ask in natural language:
 
 ```
 "分析段永平的13F持仓"
 "What is Buffett buying this quarter?"
 "Compare Ackman and Einhorn holdings"
-"Show me Druckenmiller's portfolio evolution"
+"大佬都在买什么" (consensus analysis)
+"谁持有 TSLA" (reverse stock lookup)
+"帮我找集中持仓的价值投资人" (discovery mode)
 ```
 
-The skill triggers on keywords: `13F`, `持仓`, `holdings`, fund manager names, or institutional investment analysis requests.
+## Platform Setup
+
+### Claude Code
+
+```bash
+# Clone into skills directory
+git clone https://github.com/jl3032/13f-analysis.git ~/.claude/skills/13f-analysis
+cd ~/.claude/skills/13f-analysis && ./setup
+```
+
+The skill auto-triggers on keywords: `13F`, `持仓`, `holdings`, fund manager names.
+
+### Cursor
+
+Add to your `.cursor/rules` or project rules:
+
+```
+Read the file 13f-analysis/SKILL.md and follow its instructions for analyzing SEC 13F institutional holdings.
+Reference files: 13f-analysis/edgar-api-reference.md, 13f-analysis/filers-database.md
+```
+
+Or copy `SKILL.md` content into Cursor's custom instructions.
+
+### Windsurf (Codeium)
+
+Add to `.windsurfrules` in your project root:
+
+```
+For 13F institutional holdings analysis, follow the instructions in 13f-analysis/SKILL.md.
+Reference: 13f-analysis/edgar-api-reference.md and 13f-analysis/filers-database.md
+```
+
+### GitHub Copilot
+
+Add to `.github/copilot-instructions.md`:
+
+```
+When the user asks about 13F filings, institutional holdings, or fund manager portfolios,
+follow the instructions in 13f-analysis/SKILL.md to fetch data from SEC EDGAR and generate
+interactive HTML reports.
+```
+
+### Gemini CLI
+
+Add to `GEMINI.md` in your project:
+
+```
+For 13F analysis tasks, read and follow 13f-analysis/SKILL.md.
+Data source docs: 13f-analysis/edgar-api-reference.md
+Known filers: 13f-analysis/filers-database.md
+```
+
+### Aider / Other CLI Tools
+
+Point the AI to the instruction file:
+
+```
+Read 13f-analysis/SKILL.md for complete instructions on how to analyze SEC 13F filings.
+```
+
+### Generic (Any AI)
+
+The core of this tool is `SKILL.md` — a detailed instruction document that tells any AI how to:
+1. Fetch 13F data from SEC EDGAR (free public API)
+2. Parse holdings XML
+3. Compare across quarters
+4. Generate interactive HTML reports
+
+Copy the contents of `SKILL.md` into your AI tool's system prompt or custom instructions.
 
 ## Report Features
 
@@ -61,61 +133,41 @@ The skill triggers on keywords: `13F`, `持仓`, `holdings`, fund manager names,
 | Quarter Browser | Browse any historical quarter interactively |
 | Manager Profile | Background, style, famous trades |
 
-### Key Technical Features
+### Key Features
 
 - **Single-file HTML** — all CSS/JS inline, zero external dependencies
-- **Dark theme** — professional financial aesthetic
+- **Dark/light theme** — toggle button, preference saved
 - **Pure SVG charts** — no Chart.js or D3 needed
-- **Sortable tables** — click any column header
-- **Yahoo Finance links** — every stock name links to its Yahoo Finance page
+- **Yahoo Finance links** — every stock links to its quote page
+- **Chinese + English** — bilingual labels throughout
 - **Responsive** — works on desktop and mobile
-- **Bilingual** — English + Chinese labels throughout
-- **Lazy rendering** — charts only render when their tab is activated
 
 ## Data Source
 
-All data comes directly from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch), the official source for 13F filings. No third-party data providers needed.
+All data from [SEC EDGAR](https://www.sec.gov/edgar/searchedgar/companysearch) — the official, free, public source for 13F filings. **No API key needed.** No third-party data providers.
 
-### How 13F Works
+## Pre-configured Fund Managers (20)
 
-- US institutions managing >$100M must file quarterly
-- Filed within 45 days of quarter-end (e.g., Q4 data available by mid-February)
-- Shows long equity positions only (no shorts, options, futures)
-- Subject to confidential treatment requests (some positions may be hidden)
-
-## Pre-configured Fund Managers
-
-| Manager | Entity | CIK | Style |
-|---------|--------|-----|-------|
-| Warren Buffett | Berkshire Hathaway | 0001067983 | Long-term concentrated value |
-| 段永平 (Duan Yongping) | Himalaya Capital | 0001709323 | Ultra-concentrated value |
-| Bill Ackman | Pershing Square | 0001336528 | Activist concentrated |
-| Ray Dalio | Bridgewater Associates | 0001350694 | Macro diversified |
-| Stanley Druckenmiller | Duquesne Family Office | 0001536411 | Macro concentrated |
-| Seth Klarman | Baupost Group | 0001061768 | Deep value contrarian |
-| David Einhorn | Greenlight Capital | 0001079114 | Value + short-selling |
-| Cathie Wood | ARK Invest | 0001697748 | Growth disruptive |
-| Tom Gayner | Markel Group | 0001096343 | Long-term quality |
-| Terry Smith | Fundsmith | 0001569205 | Long-term quality growth |
-| Joel Greenblatt | Gotham Asset | 0001510387 | Quantitative value |
-| David Tepper | Appaloosa Management | 0001006438 | Event-driven distressed |
+| Category | Managers |
+|----------|----------|
+| 🔥 Chinese investor favorites | 段永平, 巴菲特, 李录, 高瓴/张磊 |
+| 💰 Wall Street legends | Ackman, Druckenmiller, Klarman, Einhorn |
+| 🚀 Growth | Cathie Wood/ARK, Tiger Global, Coatue |
+| 🏛️ Steady value | Gayner/Markel, Terry Smith, Burry, Pabrai |
 
 Any 13F filer can be analyzed — just provide the name or CIK number.
 
 ## Analysis Modes
 
-### Mode 1: Fund Deep Dive (Single Manager)
-Full historical analysis with all 8 tabs. Fetches all available quarters.
-
-### Mode 2: Cross-Fund Comparison
-Side-by-side comparison of multiple managers: consensus holdings, consensus moves, sector comparison.
-
-### Mode 3: Stock Ownership Timeline
-Track a single stock across multiple institutions over time.
+| Mode | Trigger | Output |
+|------|---------|--------|
+| **Fund Deep Dive** | "分析段永平" | Full 8-tab HTML report |
+| **Cross-Fund Compare** | "对比段永平和巴菲特" | Consensus holdings matrix |
+| **Stock Reverse Lookup** | "谁持有 TSLA" | Which managers hold a stock |
+| **Watchlist Consensus** | "大佬都在买什么" | Top picks across your watchlist |
+| **Discovery** | "帮我找重仓科技股的大佬" | AI recommends managers by criteria |
 
 ## Testing
-
-Run the test suite to verify the pipeline works end-to-end:
 
 ```bash
 # Quick smoke test (2 managers, ~30 seconds)
@@ -125,51 +177,30 @@ python3 tests/test_pipeline.py --quick
 python3 tests/test_pipeline.py
 ```
 
-The test suite validates:
-- SEC EDGAR API connectivity and data fetching
-- XML parsing across different filing formats
-- Value scale detection (thousands vs full dollars)
-- Quarter-to-quarter diff logic
-- Cross-reference against SEC cover page totals
-
-Tested against: Himalaya Capital, Pershing Square, Greenlight Capital, Duquesne, Baupost Group, Markel Group, ARK Invest.
-
-## Known Edge Cases
-
-See [SKILL.md](SKILL.md#edge-cases--known-issues) for comprehensive documentation of all edge cases, including:
-
-- Value scale differences (pre-2024 vs post-2024 filings)
-- CIK changes when filing agents change
-- Missing quarters for some filers
-- Large portfolios (100+ positions)
-- Stock splits affecting share counts
-- XML namespace variations across filings
+Validates: EDGAR API fetch, XML parse, value scale detection, quarter diff logic, SEC cover page cross-reference. Tested against 7 fund managers.
 
 ## File Structure
 
 ```
 13f-analysis/
-  SKILL.md              # Main skill definition (Claude reads this)
-  edgar-api-reference.md # SEC EDGAR API documentation
-  filers-database.md     # Pre-configured fund managers
-  report-template.html   # HTML report template with CSS/JS patterns
-  setup                  # Installation script
-  LICENSE                # MIT
-  README.md              # This file
+  SKILL.md                 # Core instructions (works with any AI)
+  edgar-api-reference.md   # SEC EDGAR API documentation
+  filers-database.md       # 20 pre-configured fund managers
+  report-template.html     # HTML report template
+  setup                    # Installation script
+  LICENSE                  # MIT
+  README.md                # This file
   tests/
-    test_pipeline.py     # End-to-end test suite
-  examples/
-    (sample reports)
+    test_pipeline.py       # End-to-end test suite
 ```
 
 ## Limitations
 
-1. **45-day lag** — 13F data reflects quarter-end, filed 45 days later
-2. **Long positions only** — no shorts, options, futures, or derivatives
-3. **Confidential treatment** — some positions may be hidden temporarily
-4. **Snapshot only** — high-turnover funds may change positions within the quarter
-5. **US equities only** — foreign-only positions may not appear
-6. **SEC rate limits** — 10 requests/second; bulk analysis may take time
+1. **45-day lag** — 13F reflects quarter-end, filed ~45 days later
+2. **Long positions only** — no shorts, options, futures, derivatives
+3. **Confidential treatment** — some positions may be temporarily hidden
+4. **Snapshot only** — high-turnover funds may change within the quarter
+5. **US equities focus** — foreign-only positions may not appear
 
 ## License
 
@@ -177,6 +208,4 @@ MIT License. See [LICENSE](LICENSE).
 
 ## Credits
 
-Data source: [SEC EDGAR](https://www.sec.gov/). Stock links: [Yahoo Finance](https://finance.yahoo.com/).
-
-Built as a Claude Code skill. Works with Claude Opus, Sonnet, and Haiku.
+Data: [SEC EDGAR](https://www.sec.gov/) (free public API). Stock links: [Yahoo Finance](https://finance.yahoo.com/).
