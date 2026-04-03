@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13F Analysis — {{MANAGER_NAME}}</title>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --surface-2: #273548;
+  --border: #334155; --border-light: #475569;
+  --text: #e2e8f0; --text-muted: #94a3b8; --text-dim: #64748b;
+  --green: #22c55e; --green-bg: rgba(34,197,94,0.1);
+  --red: #ef4444; --red-bg: rgba(239,68,68,0.1);
+  --blue: #3b82f6; --blue-bg: rgba(59,130,246,0.1);
+  --amber: #f59e0b; --amber-bg: rgba(245,158,11,0.1);
+  --purple: #a855f7;
+  --radius: 12px; --radius-sm: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+
+/* Layout */
+.container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+/* Header */
+.header { display: flex; align-items: center; justify-content: space-between; padding: 32px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+.header-left h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+.header-left .subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+.header-right { text-align: right; }
+.header-right .quarter { font-size: 20px; font-weight: 600; color: var(--blue); }
+.header-right .date { color: var(--text-dim); font-size: 13px; }
+
+/* Style Badge */
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+.badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+.badge-neutral { background: rgba(100,116,139,0.15); color: var(--text-muted); border: 1px solid rgba(100,116,139,0.3); }
+
+/* Summary Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.card-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.card-value { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.card-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px; overflow-x: auto; }
+.tab { padding: 12px 20px; background: none; border: none; color: var(--text-muted); font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Tables */
+.table-wrapper { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 24px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead { background: var(--surface-2); }
+th { padding: 12px 16px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); cursor: pointer; user-select: none; white-space: nowrap; border-bottom: 1px solid var(--border); }
+th:hover { color: var(--text); }
+th .sort-arrow { margin-left: 4px; opacity: 0.3; }
+th.sorted .sort-arrow { opacity: 1; }
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: none; }
+tr:hover { background: rgba(59,130,246,0.05); }
+.align-right { text-align: right; }
+
+/* Inline bar for portfolio weight */
+.weight-bar { display: flex; align-items: center; gap: 8px; }
+.weight-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; min-width: 60px; }
+.weight-bar-fill { height: 100%; border-radius: 3px; background: var(--blue); transition: width 0.3s; }
+.weight-bar-label { font-size: 13px; color: var(--text-muted); min-width: 45px; text-align: right; }
+
+/* Change indicators */
+.change-up { color: var(--green); }
+.change-down { color: var(--red); }
+.change-new { color: var(--amber); font-weight: 600; }
+.change-exit { color: var(--red); font-weight: 600; }
+
+/* Search/Filter */
+.search-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+.search-input { flex: 1; padding: 10px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 14px; outline: none; }
+.search-input:focus { border-color: var(--blue); }
+.search-input::placeholder { color: var(--text-dim); }
+
+/* Expandable sections */
+.expandable { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; }
+.expandable-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--surface); cursor: pointer; user-select: none; }
+.expandable-header:hover { background: var(--surface-2); }
+.expandable-header h3 { font-size: 16px; font-weight: 600; }
+.expandable-arrow { transition: transform 0.2s; color: var(--text-muted); }
+.expandable.open .expandable-arrow { transform: rotate(90deg); }
+.expandable-body { padding: 20px; display: none; }
+.expandable.open .expandable-body { display: block; }
+
+/* Sector donut (pure CSS) */
+.donut-chart { width: 200px; height: 200px; border-radius: 50%; position: relative; margin: 0 auto; }
+.donut-hole { width: 120px; height: 120px; border-radius: 50%; background: var(--bg); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.donut-hole .total { font-size: 18px; font-weight: 700; }
+.donut-hole .label { font-size: 11px; color: var(--text-dim); }
+
+/* Sector legend */
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Sparkline (SVG) */
+.sparkline { height: 40px; }
+.sparkline polyline { fill: none; stroke: var(--blue); stroke-width: 1.5; }
+.sparkline .area { fill: rgba(59,130,246,0.1); stroke: none; }
+
+/* Tooltip */
+[data-tooltip] { position: relative; cursor: help; }
+[data-tooltip]:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--surface-2); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; white-space: nowrap; z-index: 100; border: 1px solid var(--border); }
+
+/* Section headers */
+.section-header { font-size: 20px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+
+/* Comparison heat map */
+.heatmap { display: grid; gap: 2px; }
+.heatmap-cell { padding: 8px; text-align: center; font-size: 12px; border-radius: 4px; }
+
+/* Stock links */
+a[href*="finance.yahoo.com"] { color: var(--text); text-decoration: none; }
+a[href*="finance.yahoo.com"]:hover strong { color: var(--blue); }
+a[href*="finance.yahoo.com"]:hover { text-decoration: underline; text-decoration-color: var(--blue); }
+
+/* SVG Chart containers */
+.svg-chart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; overflow-x: auto; }
+.svg-chart svg { width: 100%; height: auto; }
+.chart-tooltip { position: absolute; background: var(--surface-2); color: var(--text); padding: 8px 12px; border-radius: 6px; font-size: 12px; border: 1px solid var(--border); pointer-events: none; z-index: 200; display: none; }
+
+/* Lifecycle bar */
+.lifecycle-bar { display: flex; gap: 2px; height: 20px; border-radius: 4px; overflow: hidden; }
+.lifecycle-bar .qcell { flex: 1; border-radius: 2px; min-width: 4px; }
+.lifecycle-bar .qcell.held { background: var(--blue); }
+.lifecycle-bar .qcell.bought { background: var(--green); }
+.lifecycle-bar .qcell.sold { background: var(--red); }
+.lifecycle-bar .qcell.not-held { background: var(--border); opacity: 0.3; }
+
+/* Filter buttons */
+.filter-btn { padding: 6px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.filter-btn:hover { border-color: var(--border-light); color: var(--text); }
+.filter-btn.active { background: var(--blue-bg); color: var(--blue); border-color: rgba(59,130,246,0.3); }
+
+/* Quarter timeline */
+.quarter-timeline { display: flex; gap: 4px; overflow-x: auto; padding: 8px 0 16px; -webkit-overflow-scrolling: touch; margin-bottom: 24px; }
+.quarter-timeline button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-muted); font-size: 12px; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.15s; flex-shrink: 0; }
+.quarter-timeline button:hover { border-color: var(--border-light); color: var(--text); }
+.quarter-timeline button.active { background: var(--blue-bg); color: var(--blue); border-color: rgba(59,130,246,0.3); }
+
+/* Footer */
+.footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 12px; text-align: center; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .header-right { text-align: left; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .card-value { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-left">
+      <h1>{{MANAGER_NAME}}</h1>
+      <div class="subtitle">{{ENTITY_NAME}} &middot; CIK {{CIK}} &middot; <span class="badge badge-blue">{{STYLE}}</span></div>
+    </div>
+    <div class="header-right">
+      <div class="quarter">{{QUARTER}} 13F</div>
+      <div class="date">Report Date: {{REPORT_DATE}} &middot; Filed: {{FILING_DATE}}</div>
+    </div>
+  </header>
+
+  <!-- ===== SUMMARY CARDS ===== -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Portfolio Value</div>
+      <div class="card-value">{{TOTAL_VALUE}}</div>
+      <div class="card-sub">{{VALUE_CHANGE}} vs prev quarter</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Positions</div>
+      <div class="card-value">{{POSITION_COUNT}}</div>
+      <div class="card-sub">{{NEW_COUNT}} new, {{EXIT_COUNT}} exited</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Top Holding</div>
+      <div class="card-value">{{TOP_HOLDING}}</div>
+      <div class="card-sub">{{TOP_HOLDING_PCT}}% of portfolio</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Concentration</div>
+      <div class="card-value">{{TOP10_PCT}}%</div>
+      <div class="card-sub">Top 10 holdings</div>
+    </div>
+  </div>
+
+  <!-- ===== TABS ===== -->
+  <div class="tabs">
+    <button class="tab active" data-tab="changes">Quarterly Changes</button>
+    <button class="tab" data-tab="holdings">All Holdings</button>
+    <button class="tab" data-tab="sectors">Sector Analysis</button>
+    <button class="tab" data-tab="core">Transaction History / 持仓生命周期</button>
+    <button class="tab" data-tab="evolution">Portfolio Evolution / 组合演变</button>
+    <button class="tab" data-tab="style">Style Analysis / 风格分析</button>
+    <button class="tab" data-tab="history">Quarter Browser / 季度浏览</button>
+    <button class="tab" data-tab="profile">Manager Profile</button>
+  </div>
+
+  <!-- ===== TAB: QUARTERLY CHANGES ===== -->
+  <div id="tab-changes" class="tab-content active">
+    <h2 class="section-header">Quarterly Changes</h2>
+    <p class="section-desc">Comparing {{QUARTER}} vs {{PREV_QUARTER}} — new positions, eliminations, and significant changes in share count.</p>
+
+    <!-- New Positions -->
+    <div class="expandable open">
+      <div class="expandable-header" onclick="toggleExpand(this)">
+        <h3>New Positions <span class="badge badge-green">{{NEW_COUNT}}</span></h3>
+        <span class="expandable-arrow">&#9654;</span>
+      </div>
+      <div class="expandable-body">
+        <div class="table-wrapper">
+          <table class="sortable">
+            <thead>
+              <tr>
+                <th>Stock <span class="sort-arrow">&#9650;</span></th>
+                <th class="align-right">Shares <span class="sort-arrow">&#9650;</span></th>
+                <th class="align-right">Value <span class="sort-arrow">&#9650;</span></th>
+                <th class="align-right">% of Portfolio <span class="sort-arrow">&#9650;</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {{NEW_POSITIONS_ROWS}} -->
+              <tr>
+                <td><strong>EXAMPLE CORP</strong><br><span style="color:var(--text-dim);font-size:12px">COM &middot; 123456789</span></td>
+                <td class="align-right">1,500,000</td>
+                <td class="align-right">$234,567,890</td>
+                <td class="align-right">
+                  <div class="weight-bar">
+                    <div class="weight-bar-track"><div class="weight-bar-fill" style="width:8.5%"></div></div>
+                    <span class="weight-bar-label">8.5%</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eliminated Positions -->
+    <div class="expandable open">
+      <div class="expandable-header" onclick="toggleExpand(this)">
+        <h3>Eliminated Positions <span class="badge badge-red">{{EXIT_COUNT}}</span></h3>
+        <span class="expandable-arrow">&#9654;</span>
+      </div>
+      <div class="expandable-body">
+        <div class="table-wrapper">
+          <table class="sortable">
+            <thead>
+              <tr>
+                <th>Stock</th>
+                <th class="align-right">Prev Shares</th>
+                <th class="align-right">Prev Value</th>
+                <th class="align-right">Prev % Portfolio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {{ELIMINATED_ROWS}} -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Significant Increases -->
+    <div class="expandable open">
+      <div class="expandable-header" onclick="toggleExpand(this)">
+        <h3>Significant Increases (&gt;25%) <span class="badge badge-green">{{INCREASE_COUNT}}</span></h3>
+        <span class="expandable-arrow">&#9654;</span>
+      </div>
+      <div class="expandable-body">
+        <div class="table-wrapper">
+          <table class="sortable">
+            <thead>
+              <tr>
+                <th>Stock</th>
+                <th class="align-right">Shares Before</th>
+                <th class="align-right">Shares After</th>
+                <th class="align-right">Change %</th>
+                <th class="align-right">Value Now</th>
+                <th class="align-right">% of Portfolio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {{INCREASE_ROWS}} -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Significant Decreases -->
+    <div class="expandable">
+      <div class="expandable-header" onclick="toggleExpand(this)">
+        <h3>Significant Decreases (&gt;25%) <span class="badge badge-red">{{DECREASE_COUNT}}</span></h3>
+        <span class="expandable-arrow">&#9654;</span>
+      </div>
+      <div class="expandable-body">
+        <div class="table-wrapper">
+          <table class="sortable">
+            <thead>
+              <tr>
+                <th>Stock</th>
+                <th class="align-right">Shares Before</th>
+                <th class="align-right">Shares After</th>
+                <th class="align-right">Change %</th>
+                <th class="align-right">Value Now</th>
+                <th class="align-right">% of Portfolio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {{DECREASE_ROWS}} -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: ALL HOLDINGS ===== -->
+  <div id="tab-holdings" class="tab-content">
+    <h2 class="section-header">All Holdings</h2>
+    <div class="search-bar">
+      <input type="text" class="search-input" placeholder="Search by stock name, CUSIP, or sector..." oninput="filterTable(this, 'holdings-table')">
+    </div>
+    <div class="table-wrapper">
+      <table id="holdings-table" class="sortable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Stock</th>
+            <th class="align-right">Shares</th>
+            <th class="align-right">Value</th>
+            <th class="align-right">% Portfolio</th>
+            <th class="align-right">Share Change</th>
+            <th class="align-right">% Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- {{ALL_HOLDINGS_ROWS}} -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== TAB: CORE POSITIONS ===== -->
+  <div id="tab-core" class="tab-content">
+    <h2 class="section-header">Transaction History / 交易历史</h2>
+    <p class="section-desc">Each position's buy/add/trim timeline with price range at time of purchase. Click stock name to view on Yahoo Finance.</p>
+    <!-- {{CORE_HOLDINGS_CONTENT}} -->
+    <!-- Each core holding gets an expandable with sparkline and quarter-by-quarter table -->
+  </div>
+
+  <!-- ===== TAB: SECTOR ANALYSIS ===== -->
+  <div id="tab-sectors" class="tab-content">
+    <h2 class="section-header">Sector Allocation</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+      <div>
+        <!-- CSS donut chart placeholder -->
+        <div class="donut-chart" id="sector-donut">
+          <!-- Generated via conic-gradient -->
+          <div class="donut-hole">
+            <span class="total">{{POSITION_COUNT}}</span>
+            <span class="label">positions</span>
+          </div>
+        </div>
+        <div class="legend" id="sector-legend">
+          <!-- {{SECTOR_LEGEND_ITEMS}} -->
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:16px;">Quarter-over-Quarter Sector Changes</h3>
+        <div class="table-wrapper">
+          <table class="sortable">
+            <thead>
+              <tr>
+                <th>Sector</th>
+                <th class="align-right">{{PREV_QUARTER}} %</th>
+                <th class="align-right">{{QUARTER}} %</th>
+                <th class="align-right">Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {{SECTOR_CHANGE_ROWS}} -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: PORTFOLIO EVOLUTION ===== -->
+  <div id="tab-evolution" class="tab-content">
+    <h2 class="section-header">Portfolio Evolution / 组合演变</h2>
+    <p class="section-desc">Historical view across all quarters of 13F filings.</p>
+    <!-- {{EVOLUTION_SUMMARY_CARDS}} -->
+    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Total AUM Over Time / 管理规模趋势</h3><div id="chart-aum" class="svg-chart"></div></div>
+    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Portfolio Concentration / 集中度趋势</h3><div id="chart-concentration" class="svg-chart"></div></div>
+    <div style="margin-bottom:32px"><h3 style="margin-bottom:16px">Holdings Composition / 持仓构成变化</h3><div id="chart-stacked" class="svg-chart"></div></div>
+  </div>
+
+  <!-- ===== TAB: STYLE ANALYSIS ===== -->
+  <div id="tab-style" class="tab-content">
+    <h2 class="section-header">Investment Style Analysis / 投资风格分析</h2>
+    <p class="section-desc">Quantitative style profile derived from historical 13F data.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+      <div><h3 style="margin-bottom:16px">Style Radar / 风格雷达</h3><div id="chart-radar" class="svg-chart" style="text-align:center"></div></div>
+      <div><h3 style="margin-bottom:16px">Key Metrics / 关键指标</h3><!-- {{STYLE_METRICS_TABLE}} --></div>
+    </div>
+    <!-- {{STYLE_SUMMARY_INSIGHT}} -->
+  </div>
+
+  <!-- ===== TAB: QUARTER BROWSER ===== -->
+  <div id="tab-history" class="tab-content">
+    <h2 class="section-header">Historical Quarter Browser / 历史季度浏览</h2>
+    <div class="quarter-timeline" id="quarter-timeline"><!-- JS renders buttons --></div>
+    <div id="quarter-snapshot"><!-- JS renders content --></div>
+  </div>
+
+  <!-- ===== TAB: MANAGER PROFILE ===== -->
+  <div id="tab-profile" class="tab-content">
+    <h2 class="section-header">Manager Profile</h2>
+    <!-- {{MANAGER_PROFILE_CONTENT}} -->
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    Data source: SEC EDGAR 13F-HR filings &middot; Generated {{GENERATED_DATE}} &middot; Values as of {{REPORT_DATE}}<br>
+    <span style="color:var(--text-dim);">13F data has 45-day lag. Long positions only. No shorts, options, or derivatives. Subject to confidential treatment requests.</span>
+  </div>
+
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Expand/collapse
+function toggleExpand(header) {
+  header.closest('.expandable').classList.toggle('open');
+}
+
+// Sortable tables
+document.querySelectorAll('table.sortable th').forEach(th => {
+  th.addEventListener('click', () => {
+    const table = th.closest('table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const idx = Array.from(th.parentNode.children).indexOf(th);
+    const asc = !th.classList.contains('sorted-asc');
+
+    // Reset all headers
+    table.querySelectorAll('th').forEach(h => { h.classList.remove('sorted', 'sorted-asc', 'sorted-desc'); });
+    th.classList.add('sorted', asc ? 'sorted-asc' : 'sorted-desc');
+
+    rows.sort((a, b) => {
+      let aVal = a.children[idx]?.textContent.trim() || '';
+      let bVal = b.children[idx]?.textContent.trim() || '';
+      // Try numeric (strip $, %, commas)
+      const aNum = parseFloat(aVal.replace(/[$,%+]/g, '').replace(/,/g, ''));
+      const bNum = parseFloat(bVal.replace(/[$,%+]/g, '').replace(/,/g, ''));
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return asc ? aNum - bNum : bNum - aNum;
+      }
+      return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+  });
+});
+
+// Search/filter
+function filterTable(input, tableId) {
+  const query = input.value.toLowerCase();
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  table.querySelectorAll('tbody tr').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(query) ? '' : 'none';
+  });
+}
+
+// Generate donut chart from data attribute
+function renderDonut(chartId, sectors) {
+  const chart = document.getElementById(chartId);
+  if (!chart || !sectors) return;
+  let gradient = '';
+  let angle = 0;
+  const colors = ['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#ec4899','#14b8a6','#f97316','#6366f1','#84cc16','#06b6d4','#e11d48'];
+  sectors.forEach((s, i) => {
+    const slice = s.pct * 3.6;
+    const color = colors[i % colors.length];
+    gradient += `${color} ${angle}deg ${angle + slice}deg, `;
+    angle += slice;
+  });
+  chart.style.background = `conic-gradient(${gradient.slice(0, -2)})`;
+}
+</script>
+</body>
+</html>

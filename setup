@@ -1,0 +1,72 @@
+#!/bin/bash
+# 13f-analysis skill setup
+# Installs the skill into Claude Code's skills directory
+
+set -e
+
+SKILL_NAME="13f-analysis"
+SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
+TARGET_DIR="$HOME/.claude/skills/$SKILL_NAME"
+
+echo "Installing $SKILL_NAME skill..."
+
+# Check Python 3
+if ! command -v python3 &> /dev/null; then
+    echo "ERROR: Python 3 is required but not found."
+    echo "Install it: https://www.python.org/downloads/"
+    exit 1
+fi
+
+# Check curl
+if ! command -v curl &> /dev/null; then
+    echo "ERROR: curl is required but not found."
+    exit 1
+fi
+
+# Verify SEC EDGAR connectivity
+echo "Checking SEC EDGAR connectivity..."
+STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "User-Agent: 13F-Analysis research@example.com" \
+    "https://data.sec.gov/submissions/CIK0001067983.json" --max-time 10 2>/dev/null || echo "000")
+
+if [ "$STATUS" != "200" ]; then
+    echo "WARNING: Cannot reach SEC EDGAR (status $STATUS). The skill requires internet access to fetch 13F data."
+fi
+
+# If running from a clone (not already in skills dir), symlink
+if [ "$SKILL_DIR" != "$TARGET_DIR" ]; then
+    mkdir -p "$(dirname "$TARGET_DIR")"
+    if [ -e "$TARGET_DIR" ]; then
+        echo "Skill already exists at $TARGET_DIR"
+        read -p "Overwrite? (y/N) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            rm -rf "$TARGET_DIR"
+        else
+            echo "Aborted."
+            exit 0
+        fi
+    fi
+    ln -s "$SKILL_DIR" "$TARGET_DIR"
+    echo "Linked $SKILL_DIR -> $TARGET_DIR"
+else
+    echo "Already installed at $TARGET_DIR"
+fi
+
+# Run quick smoke test
+echo ""
+echo "Running smoke test..."
+if python3 "$SKILL_DIR/tests/test_pipeline.py" --quick 2>/dev/null; then
+    echo ""
+    echo "Setup complete! The skill is ready to use."
+else
+    echo ""
+    echo "Setup complete, but smoke test had issues (may be network-related)."
+    echo "You can run the full test suite later: python3 $SKILL_DIR/tests/test_pipeline.py"
+fi
+
+echo ""
+echo "Usage: In Claude Code, ask about any fund manager's 13F holdings."
+echo "Examples:"
+echo '  "分析段永平的13F持仓"'
+echo '  "What is Buffett buying?"'
+echo '  "Compare Ackman and Einhorn holdings"'
