@@ -22,7 +22,7 @@ All in a single self-contained HTML file. No dependencies. Dark theme. Works off
 ### Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/13f-analysis.git ~/.claude/skills/13f-analysis
+git clone https://github.com/jl3032/13f-analysis.git ~/.claude/skills/13f-analysis
 cd ~/.claude/skills/13f-analysis && ./setup
 ```
 
