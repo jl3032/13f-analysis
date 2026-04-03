@@ -29,11 +29,19 @@ Analyze SEC 13F filings to track what major institutional investors are buying, 
 
 ## Language Detection
 
-Detect the user's language from their input and respond accordingly:
-- If user writes in Chinese → respond in Chinese, show Chinese labels in reports
-- If user writes in English → respond in English, show English labels in reports
-- Default: English
-- Reports are always bilingual (English + Chinese labels) regardless of input language
+Detect the user's language from their input. The ENTIRE report adapts to match:
+
+**English user (default):**
+- All UI: tab labels, section headers, badges, insight text — English only
+- Stock names: English only (e.g., "ALPHABET INC", "BANK OF AMERICA")
+- Footer disclaimer: English only
+- No Chinese anywhere in the report
+
+**Chinese user:**
+- All UI: tab labels, section headers, badges, insight text — Chinese (with English subtitle where helpful)
+- Stock names: Chinese + English (e.g., "谷歌 ALPHABET INC", "美国银行 BANK OF AMERICA")
+- Footer disclaimer: bilingual
+- Manager profile section: Chinese
 
 ## Onboarding
 
@@ -172,8 +180,8 @@ digraph modes {
 - **If high-frequency/quant → warn user: 13F has limited reference value**
 
 #### 2. Current Portfolio Snapshot
-- Top 20 holdings by value (name, **Chinese name/简称**, shares, value, % of portfolio)
-- **Chinese stock names:** Always include a Chinese name or brief description for each stock, e.g. "EAST WEST BANCORP (华美银行)", "ALPHABET (谷歌)", "PDD HOLDINGS (拼多多)". Use Claude's knowledge to provide accurate Chinese names.
+- Top 20 holdings by value (name, shares, value, % of portfolio)
+- **Stock name language:** Follow the Language Detection rule above. English user → English only. Chinese user → Chinese + English (e.g., "华美银行 EAST WEST BANCORP", "谷歌 ALPHABET", "拼多多 PDD HOLDINGS").
 - **Concentration metric:** top 10 holdings as % of total portfolio
 - Sector/industry breakdown
 
